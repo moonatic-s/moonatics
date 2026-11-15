@@ -1,136 +1,529 @@
-# Moonatics
+# 🌙 MOONATICS
 
-**Junior Astronaut Mission Trainer** — a browser game for ages 7–12 where you run a lunar outpost and
-learn the trade-offs real mission planners face: every lever you turn costs power, and power is limited.
+### Junior Astronaut Mission Trainer
 
-Built for the NASA Space Apps Challenge 2026, *Build a Junior Astronaut Mission Trainer*.
+**MOONATICS** is an interactive educational web game for children aged **7–12**, created for the **NASA Space Apps Challenge 2026 — Build a Junior Astronaut Mission Trainer**.
 
-> **Play it:** after you publish (see [Publish on GitHub Pages](#publish-on-github-pages)) the game lives at
-> `https://YOUR-NAME.github.io/YOUR-REPO/`. Add that link here.
+Players take responsibility for a lunar outpost and complete three connected missions inspired by real NASA data:
 
-![Moonatics](public/apple-touch-icon.png)
+**keep the habitat stable, grow food in space, and protect the crew during a solar radiation event.**
 
-## How it plays
+Instead of memorizing facts, players learn by **observing systems, making decisions, seeing consequences, and managing limited resources**.
 
-You are the crew's life-support operator. Each mission is a loop:
+🚀 **Live Demo:**  
+https://moonatic-s.github.io/moonatics/
 
-1. **Observe** the real NASA reading.
-2. **Adjust** the systems (air scrubbers, thermostat, water recycler).
-3. **See the trade-offs** in the power budget and the forecast.
-4. **Advance 6 hours** — time only moves when you press the button.
-5. **See what changed**, then adjust again.
+---
 
-Each mission opens with a short, skippable training briefing (five animated scenes, about a minute) that explains
-the readings, why every system costs power, and the difference between NASA data and the simulation.
-It is narrated aloud with the browser's built-in voice (calmer and simpler for ages 7–9), and sound can be switched off.
+## 🎮 The Mission
 
-Nothing runs on a timer, so there is no rush. Keeping the habitat stable takes real decisions:
-only pressing *Advance* fails the level.
+You are a junior astronaut helping operate a lunar outpost.
 
-### Two ways to play
+Your training consists of three connected missions:
 
-| | Explorer (ages 7–9) | Mission Specialist (ages 10–12) |
-| --- | --- | --- |
-| Readings | Plain words and lamps ("Fresh air", "Too dry") | Exact numbers and units (ppm, °C, %, kW) |
-| Levers | Five big stops | Fine 0–100% sliders |
-| Power budget | Energy cells | Stacked kW bar with solar limit |
-| Explanations | Short sentences from the mission guide | NASA value shown next to your simulated value |
+### 🌬️ Mission 1 — Life Support
 
-Every science term (CO₂, humidity, scrubbers…) has a **?** that explains it in place.
+**MONITOR → ADJUST → ADVANCE**
 
-### Missions
+Keep the habitat environment stable while managing limited power.
 
-| Mission | Status |
-| --- | --- |
-| 01 Life Support | Playable |
-| 02 Food Production | Unlocks when Life Support is completed and opens its 3-screen briefing, one for Explorer (also at `/#greenhouse`) and one for Mission Specialist (`/#greenhouse-specialist`); it plays once, then sits behind a "watch again" button. Progress, seen briefings and each mission's resource result are saved in the browser (Mission 2 always starts from your last Life Support result), so Mission 2 never re-locks (`/#reset` clears it); the mission is playable for both ages: build the greenhouse (drag and drop), flip the two-position light switch, inspect leaves, roots and flowers, make discrete water decisions through dry air and a root-zone check, then harvest and see a report with a NASA VEG-05 note. It runs on the same engine as the rest of the game (no sliders) |
-| 03 Solar Storm Protocol | Unlocks when the greenhouse is done. A 5-screen briefing (one component, both ages), then DETECT > PREPARE > SHELTER > PRIORITIZE > SURVIVE: drag shielding material around the crew shelter (what is available comes from your water and harvest in Missions 1-2), choose the solar array setting when the CME is observed, share limited emergency power between shelter systems, life support and the greenhouse, then watch the real CRaTER-D1D2 storm play back with one emergency reroute. Physical shielding blocks radiation; power only runs systems. NASA observed data and the MOONATICS simulation are always labelled apart |
+Players monitor:
 
-## Story, progress and replay
+- CO₂
+- temperature
+- humidity
 
-- **A cast.** CAPCOM Luna (mission control, speaks over a short radio crackle) and Nova (the crew astronaut the child looks after, who reacts to what happens) say everything the game says. Luna also drops space-weather notes in Missions 1 and 2, so the storm in Mission 3 is the payoff of something the child already heard about.
-- **Learning from play, not tests.** What the child *did* (did they fill the shelter, spend the power on purpose, keep water for shielding?) becomes six skills shown as up to three dots. Each mission ends with one question from mission control (a choice, or a sorting question in Mission 3) taken from a pool of at least four, so playing again asks something new. Everyone answers; a wrong answer gets the explanation and the answer, and nothing is ever taken away. A quick recall question from its own pool opens the next mission.
-- **Collecting.** Mission patches, science cards (true, sourced facts that unlock from doing the thing they explain) and personal bests live in the **Crew log**. There are no leaderboards and no timers.
-- **A living outpost.** The mission map shows the base as the child left it: lit windows, a glowing greenhouse, solar arrays open or folded.
-- **Finishing.** After Mission 3 the child sees *Congratulations, training complete!*, an epilogue that replays their own decisions as cause and effect, what they learned, how thriftily they ran the outpost, and an invitation to play again for better results. Patches, cards and best results stay.
-- **Tighter resources.** Mission Specialist plays the same rules with tighter numbers (more water used, one fewer storm power block, a lower dose limit). Costs are shown before a choice, an outpost ledger tracks water, power, supplies and food, and one supply drop from Earth per training helps now at a small efficiency cost.
+and operate:
 
-## NASA data
+- air scrubbers
+- climate control
+- water recovery
 
-The game replays curated real data, embedded in `src/game/data/`. **It is static, not live**, and the
-game labels NASA values with a *NASA DATA* badge and player-adjusted values as *SIMULATED*.
+The environmental baseline comes from NASA **RR-28 environmental telemetry**.
 
-| Dataset | Used for |
-| --- | --- |
-| NASA OSDR **RR-28** — ISS cabin telemetry | Mission 1: CO₂, temperature and humidity (a 48-hour window of the record) |
-| NASA OSDR **OSD-766 / OSD-767** — VEG-05 dwarf tomato experiment | Mission 2: light spectrum, watering, crop stress |
-| CCMC **DONKI** — M9.7 flare, 1,106 km/s CME and >100 MeV proton event, 7–9 June 2024 | Mission 3: storm phases |
-| RadLab **CRaTER-D1D2** — lunar orbit absorbed dose rate | Mission 3: radiation dose |
+Time does not move automatically. Players decide when to **Advance 6 Hours**, observe the result, and adjust their strategy.
 
-Safe zones and pass marks are **training targets** chosen for gameplay. They are not official NASA limits.
+Mission 1 covers a **48-hour training window**.
 
-## Run it
+---
 
-You need a recent Node.js (22 or newer) and npm.
+### 🌱 Mission 2 — Space Greenhouse
 
-```sh
-npm install
-npm run dev        # http://localhost:8080
-npm test           # unit and screen tests (Vitest)
-npm run typecheck  # TypeScript, strict
-npm run build      # production build into dist/
-npm run preview    # serve the production build locally
+**INSPECT → CARE → GROW**
+
+Grow **Red Robin tomatoes** inside the lunar greenhouse.
+
+Players:
+
+- set up the greenhouse
+- inspect leaves, roots, flowers, and fruit
+- manage water using discrete decisions
+- choose a light recipe
+- respond to dry and wet root-zone conditions
+- guide the plant through growth stages
+- harvest ripe tomatoes
+
+The mission is inspired by NASA's **VEG-05** experiment aboard the International Space Station.
+
+Two real experimental light recipes are represented:
+
+- 🔴 **Red-rich:** 90% red / 10% blue
+- 🟣 **Blue-rich:** 50% red / 50% blue
+
+Unlike Mission 1, the greenhouse does not rely on continuous sliders. It uses **drag-and-drop setup, plant inspection, discrete care decisions, and a two-position light switch**.
+
+---
+
+### ☀️ Mission 3 — Solar Storm Protocol
+
+**DETECT → PREPARE → PRIORITIZE → SURVIVE**
+
+A solar event threatens the lunar outpost.
+
+Players must:
+
+- respond to an early space-weather warning
+- prepare and reinforce the crew storm shelter
+- configure the solar arrays
+- distribute limited emergency power
+- keep Life Support and the greenhouse operating
+- perform one emergency power reroute
+- watch the radiation event unfold
+
+The mission combines space-weather observations from **NASA CCMC DONKI** with lunar-orbit radiation measurements from **CRaTER-D1D2**.
+
+Physical shielding and electrical power are deliberately treated as different systems:
+
+> **Shielding reduces radiation exposure. Power keeps systems operating.**
+
+Mission 3 also connects the previous missions. Resources and outcomes from Life Support and the greenhouse can affect how prepared the outpost is for the storm.
+
+---
+
+## 🧠 Learning Through Decisions
+
+MOONATICS follows a simple learning loop:
+
+> **Observe → Decide → Act → See What Changes**
+
+The game is designed around exploration rather than punishment.
+
+There are:
+
+- no countdown timers
+- no leaderboards
+- no pressure to respond immediately
+- opportunities to replay missions and improve decisions
+
+Players can take time to understand what is happening before acting.
+
+Each mission begins with a short animated briefing that introduces only the concepts needed for that mission.
+
+---
+
+## 👩‍🚀 Two Age Modes
+
+MOONATICS supports two age-adapted ways to play.
+
+| | 🧭 Explorer | 🔬 Mission Specialist |
+|---|---|---|
+| Ages | 7–9 | 10–12 |
+| Language | Short and simple | More scientific |
+| Readings | Visual states and plain-language feedback | Numerical values and units |
+| Guidance | More contextual support | More independent decisions |
+| Resources | Easier training conditions | Tighter resource constraints |
+| Science | Core concepts | Additional terminology and NASA context |
+
+Both modes use the same mission structure and simulation foundation.
+
+The main difference is **how information and difficulty are presented**, not a completely different game.
+
+---
+
+## 🎓 Briefings and Guidance
+
+Briefings are designed to reduce cognitive overload.
+
+Instead of displaying several concepts at the same time, they generally follow:
+
+> **Show → Pause → Explain → Continue**
+
+They include:
+
+- animated visual explanations
+- age-adapted text
+- optional narration using the browser's built-in speech system
+- sound controls
+- skip and replay options
+
+The briefing itself does not alter the player's mission state.
+
+---
+
+## 👩‍🚀 Meet the Crew
+
+MOONATICS uses recurring characters to connect the three missions.
+
+### CAPCOM Luna
+
+Mission control guides the player, explains important events, and provides feedback.
+
+### Nova
+
+The astronaut at the lunar outpost reacts to the player's decisions and gives the mission a human context.
+
+Together, they help turn technical systems into a connected mission story.
+
+---
+
+## 🛰️ NASA Data
+
+MOONATICS uses curated NASA datasets embedded directly in the application.
+
+The data is **static, not live**.
+
+| Source | Used in |
+|---|---|
+| **NASA OSDR RR-28** | Mission 1 — CO₂, temperature, and humidity |
+| **NASA OSDR OSD-766 / OSD-767 — VEG-05** | Mission 2 — tomato growth, lighting, watering, and plant stress |
+| **NASA CCMC DONKI** | Mission 3 — solar flare, CME, and Solar Energetic Particle event |
+| **NASA RadLab / CRaTER-D1D2** | Mission 3 — lunar-orbit absorbed radiation dose rate |
+
+The Mission 3 scenario uses a real June 2024 space-weather sequence including:
+
+- an **M9.7 solar flare**
+- a **1,106 km/s CME observation**
+- a **>100 MeV Solar Energetic Particle event**
+- CRaTER-D1D2 lunar-orbit radiation measurements
+
+---
+
+## 🔬 NASA Data vs. MOONATICS Simulation
+
+A central design principle of MOONATICS is keeping real observations separate from educational simulation.
+
+### NASA DATA
+
+Represents measurements, experimental observations, or event information derived from NASA datasets.
+
+### SIMULATED
+
+Represents consequences produced by the MOONATICS training model after player decisions.
+
+For example:
+
+```text
+NASA radiation measurement
+          ↓
+MOONATICS simulation
+          ↓
+Shelter exposure estimate
+          ↓
+Outpost consequences
 ```
 
-On Windows PowerShell, if `npm` is blocked, use `npm.cmd` instead.
+Gameplay thresholds, resource costs, pass conditions, and simulated crew exposure are **training-model parameters**.
 
-## Publish on GitHub Pages
+They should not be interpreted as official NASA operational or medical safety limits.
 
-The game is a static website (no server, no accounts, nothing stored outside the player's browser), so GitHub
-Pages can host it for free. The workflow in `.github/workflows/deploy.yml` runs the tests, builds, and publishes.
+---
 
-1. Create a repository on GitHub and push this project to its `main` branch.
-2. In the repository open **Settings > Pages** and set **Source** to **GitHub Actions**.
-3. Push again (or open **Actions > Test and deploy to GitHub Pages > Run workflow**).
-4. After a minute the game is live at `https://YOUR-NAME.github.io/YOUR-REPO/`.
+## 🔗 Connected Mission System
 
-The build uses relative asset paths, so it works under any repository name with no extra settings.
+The three missions are not isolated mini-games.
 
-Useful links while playing or presenting: `/#reset` clears saved progress, `/#greenhouse` and `/#storm` open
-Mission 2 and Mission 3 directly.
-
-## How it is built
-
-- **React 19**, **TypeScript** (strict), **Vite**, **Tailwind CSS 4**, **Radix UI**, **Vitest**. A plain static single-page app.
-- The game is a pure, timer-free simulation engine in `src/game/engine/`: every function takes a state and
-  returns a new one, so the whole mission can be tested without a screen.
-- Screens live in `src/components/game/` and only read the engine through `src/game/engine/adapter.ts`.
-- All on-screen copy is in `src/game/content.ts`.
-
+```text
+LIFE SUPPORT
+      ↓
+SPACE GREENHOUSE
+      ↓
+SOLAR STORM PROTOCOL
 ```
+
+Mission results and resources can carry forward.
+
+For example:
+
+- water conserved earlier can contribute to storm-shelter preparation
+- greenhouse outcomes can affect available supplies
+- remaining energy affects emergency power availability
+
+This introduces a core systems-thinking idea:
+
+> **A decision in one system can affect what is possible later.**
+
+---
+
+## 🏅 Progress, Replay, and Crew Log
+
+Player progress is stored locally in the browser.
+
+The game includes:
+
+- mission patches
+- science cards
+- personal bests
+- mission results
+- learning feedback
+- replayable missions
+- a Crew Log
+- a final training-complete sequence
+
+There are no online accounts or public leaderboards.
+
+Progress remains on the player's device.
+
+---
+
+## 🛠️ Technology
+
+MOONATICS is a static browser application built with:
+
+- **React 19** — interface and game components
+- **TypeScript 5.8** — typed application and simulation logic
+- **Vite 8** — development and production builds
+- **Tailwind CSS 4** — styling and responsive design
+- **Radix UI** — accessible interface primitives
+- **Lucide React** — interface icons
+- **Vitest** — unit and screen testing
+- **React Testing Library** — component testing
+- **GitHub Actions** — automated testing and deployment
+- **GitHub Pages** — public hosting
+
+No backend server or user account system is required.
+
+---
+
+## 🧩 Architecture
+
+The simulation is separated from the visual interface.
+
+```text
+NASA DATA
+    ↓
+SIMULATION ENGINE
+    ↓
+SHARED GAME STATE
+    ↓
+AGE-ADAPTED UI
+```
+
+The main project structure is:
+
+```text
 src/
-  game/
-    engine/        simulation (life support, food, radiation, mission flow) + README
-    life-support/  guide, badges, forecast and explanation logic for Mission 1
-    data/          curated NASA datasets
-    content.ts     all game text
-    state.tsx      shared game state
-  components/game/ game screens (missions, briefings, art, sound)
-  game/audio/      ambient music and interface sounds (Web Audio, no audio files)
-  main.tsx         app entry
-  test/            engine and screen tests
+├── game/
+│   ├── engine/
+│   │   ├── life-support.ts
+│   │   ├── food.ts
+│   │   ├── radiation.ts
+│   │   ├── mission.ts
+│   │   ├── difficulty.ts
+│   │   └── adapter.ts
+│   │
+│   ├── data/
+│   │   ├── life-support.json
+│   │   ├── food.json
+│   │   └── radiation.json
+│   │
+│   ├── audio/
+│   ├── content.ts
+│   └── state.tsx
+│
+├── components/
+│   └── game/
+│       ├── life-support-briefing.tsx
+│       ├── life-support-sim.tsx
+│       ├── greenhouse-briefing.tsx
+│       ├── greenhouse-game.tsx
+│       ├── storm-briefing.tsx
+│       ├── storm-game.tsx
+│       ├── storm-playback.tsx
+│       └── ...
+│
+└── test/
 ```
 
-See [`src/game/engine/README.md`](src/game/engine/README.md) for the engine rules.
+The simulation engine is designed independently from the screen components, making mission behavior easier to test and maintain.
 
-## Credits
+See [`src/game/engine/README.md`](src/game/engine/README.md) for additional engine details.
 
-Data courtesy of NASA OSDR, CCMC DONKI and RadLab. This is an educational project and is not
-affiliated with or endorsed by NASA.
+---
 
-Fonts: Barlow and Chakra Petch (Google Fonts, loaded from the web; the game still works with fallback fonts offline).
-Music and sound effects are generated live in the browser.
+## 🔊 Audio and Accessibility
 
-## License
+MOONATICS includes browser-generated audio and narration.
 
-[MIT](LICENSE). NASA data is public.
+Features include:
+
+- ambient habitat audio
+- interface sound effects
+- briefing narration
+- sound on/off controls
+- reduced-motion support
+- keyboard-accessible briefing navigation
+- accessible Radix UI primitives
+
+Audio is generated in the browser, so no external audio-file service is required.
+
+---
+
+## 💻 Run Locally
+
+Requirements:
+
+- **Node.js 22+**
+- **npm**
+
+Clone the repository and install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The local development server runs at:
+
+```text
+http://localhost:8080
+```
+
+### Available Commands
+
+```bash
+npm run dev
+npm test
+npm run typecheck
+npm run lint
+npm run build
+npm run preview
+```
+
+Production builds are generated in:
+
+```text
+dist/
+```
+
+---
+
+## 🌐 Deployment
+
+MOONATICS is deployed as a static web application using **GitHub Pages**.
+
+The deployment workflow is located at:
+
+```text
+.github/workflows/deploy.yml
+```
+
+On every push to the `main` branch, GitHub Actions:
+
+1. checks out the repository
+2. installs dependencies with `npm ci`
+3. runs the test suite
+4. creates the production build
+5. uploads the `dist/` directory
+6. deploys it to GitHub Pages
+
+### Live App
+
+🌐 https://moonatic-s.github.io/moonatics/
+
+The Vite build uses relative asset paths, allowing the application to run correctly from the repository subpath.
+
+---
+
+## 🔧 Presentation / Development Shortcuts
+
+Useful routes while testing or presenting the project:
+
+```text
+/#reset
+```
+
+Clears locally stored mission progress.
+
+```text
+/#greenhouse
+```
+
+Opens the Space Greenhouse section directly.
+
+```text
+/#storm
+```
+
+Opens the Solar Storm section directly.
+
+---
+
+## 🌍 Why MOONATICS?
+
+Future space exploration depends on interconnected systems.
+
+Air, water, food, energy, environmental control, and crew safety cannot be managed independently.
+
+MOONATICS turns these relationships into an interactive learning experience where young players explore:
+
+- systems thinking
+- resource management
+- cause and effect
+- environmental control
+- space biology
+- plant growth in space
+- space weather
+- radiation protection
+- decision-making under constraints
+
+The goal is not simply to tell children how lunar missions work.
+
+It is to let them **make the decisions themselves**.
+
+---
+
+## 🏆 NASA Space Apps Challenge 2026
+
+Created for the:
+
+**Build a Junior Astronaut Mission Trainer**
+
+challenge at the **NASA International Space Apps Challenge 2026**.
+
+### Team Moonatics
+
+🌙 **MOONATICS**
+
+---
+
+## 📚 Data Credits
+
+Data used in MOONATICS comes from:
+
+- **NASA Open Science Data Repository (OSDR)**
+- **NASA CCMC DONKI**
+- **NASA RadLab**
+- **CRaTER**
+
+---
+
+## ⚠️ Disclaimer
+
+MOONATICS is an educational project created for the NASA Space Apps Challenge.
+
+It is **not an official NASA product** and is not affiliated with or endorsed by NASA.
+
+NASA observations are used as source material for an educational training simulation.
+
+---
+
+## 📄 License
+
+This project is released under the [MIT License](LICENSE).
+
+NASA datasets remain subject to their original public-data terms.
