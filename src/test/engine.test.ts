@@ -10,6 +10,7 @@ import {
   applyFoodPreset,
   setShelterMaterials,
   rerouteStormPower,
+  applySupplyDrop,
   dismissFlrStatic,
   setCmeDecision,
   setSepPowerAllocation,
@@ -292,13 +293,37 @@ describe("Act 3 DONKI storm phases, constrained SEP triage & CRaTER-D1D2 integra
     expect(starved.resources.foodProduction < sep.carryOver.cropHealthAtStormPct).toBeTruthy();
   });
 
+  it("Mission Specialist plays the same game with tighter numbers than Explorer", () => {
+    const play = (band: "7-9" | "10-12") => {
+      let s = advanceAct(stepUntilActComplete(jumpToAct2(createGameState({ ageBand: band }))), 3);
+      return { budget: s.subSystems.power.stormBudgetKw, water: s.subSystems.water.reserveLiters };
+    };
+    const easy = play("7-9");
+    const hard = play("10-12");
+    expect(hard.budget).toBe(easy.budget - 1); // one fewer storm power block
+    expect(hard.water).toBeLessThan(easy.water); // the greenhouse used more water
+  });
+
+  it("the supply drop helps once and never touches progress", () => {
+    const g = advanceAct(stepUntilActComplete(jumpToAct2(createGameState())), 3);
+    const before = g.subSystems.power.stormBudgetKw;
+    const dropped = applySupplyDrop(g);
+    expect(dropped.subSystems.power.stormBudgetKw).toBe(before + 1);
+    expect(dropped.meta.supplyDropUsed).toBe(true);
+    expect(applySupplyDrop(dropped)).toBe(dropped); // only once
+    const act2 = jumpToAct2(createGameState());
+    const wet = applySupplyDrop(act2);
+    expect(wet.subSystems.water.reserveLiters).toBeGreaterThan(act2.subSystems.water.reserveLiters);
+    expect(applySupplyDrop(createGameState())).toBeTruthy(); // Act 1 has no drop: unchanged
+  });
+
   it("allows exactly one emergency reroute, only while the storm plays", () => {
     let s = enterAct3();
-    s = setSepPowerAllocation(advanceStormPhase(advanceStormPhase(s)), { shelterKw: 3, cabinKw: 3, greenhouseKw: 2 });
+    s = setSepPowerAllocation(advanceStormPhase(advanceStormPhase(s)), { shelterKw: 2, cabinKw: 3, greenhouseKw: 2 });
     expect(rerouteStormPower(s, "shelterKw", "cabinKw")).toBe(s); // not before the storm plays
     s = advanceStormPhase(s);
     const once = rerouteStormPower(s, "shelterKw", "cabinKw");
-    expect(once.controls.act3.sepPowerAlloc).toEqual({ shelterKw: 2, cabinKw: 4, greenhouseKw: 2 });
+    expect(once.controls.act3.sepPowerAlloc).toEqual({ shelterKw: 1, cabinKw: 4, greenhouseKw: 2 });
     expect(rerouteStormPower(once, "cabinKw", "greenhouseKw")).toBe(once); // only one
     expect(setSepPowerAllocation(once, { shelterKw: 5 })).toBe(once); // plan is locked
     // never into a full system, never from an empty one

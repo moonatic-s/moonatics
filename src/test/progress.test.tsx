@@ -7,6 +7,7 @@ import {
   parseProgress,
 } from "@/game/progress";
 import { GameProvider, useGame } from "@/game/state";
+import { freshStory } from "@/game/story/profile";
 
 afterEach(cleanup);
 
@@ -16,6 +17,7 @@ describe("progress rules", () => {
       missions: ["active", "locked", "locked"],
       briefingsSeen: { lifeSupport: false, greenhouse: false, storm: false },
       results: { act1: null, act2: null },
+      story: freshStory(),
     });
   });
 
