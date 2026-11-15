@@ -1,0 +1,421 @@
+{
+  "metadata": {
+    "mission": "radiation_shielding",
+    "event_date": "2024-06-08",
+    "donki_source_file": "june_2024_storm_donki.json",
+    "radlab_source_file": "radiation_dosimetry_radlab.json",
+    "donki_source": "NASA CCMC DONKI Web Services",
+    "radiation_source": "NASA OSDR RadLab Radiation Dosimetry API",
+    "radlab_environment": "Moon",
+    "radlab_instrument": "CRaTER-D1D2",
+    "radiation_unit": "uGy/hour",
+    "radiation_window_utc": {
+      "start": "2024-06-07T00:00:00Z",
+      "end": "2024-06-09T23:59:59Z"
+    },
+    "radiation_record_count": 54,
+    "peak_mean_absorbed_dose_rate": {
+      "time": "2024-06-08T08:00:00Z",
+      "value_uGy_h": 20367.9167
+    },
+    "interpretation_note": "DONKI event records and RadLab radiation measurements are kept as separate source-derived layers. Temporal alignment alone should not be represented as a source-proven causal attribution beyond the links explicitly present in DONKI."
+  },
+  "events": [
+    {
+      "type": "FLR",
+      "id": "2024-06-08T01:23:00-FLR-001",
+      "begin_time": "2024-06-08T01:23Z",
+      "peak_time": "2024-06-08T01:49Z",
+      "end_time": "2024-06-08T02:19Z",
+      "class": "M9.7",
+      "source_location": "S17W68",
+      "active_region_number": 13697,
+      "linked_event_ids": [
+        "2024-06-08T01:53:00-CME-001",
+        "2024-06-08T02:25:00-SEP-001",
+        "2024-06-08T02:55:00-SEP-001",
+        "2024-06-08T03:09:00-SEP-001",
+        "2024-06-08T03:34:00-SEP-001",
+        "2024-06-08T03:36:00-SEP-001",
+        "2024-06-08T04:14:00-SEP-001",
+        "2024-06-08T04:14:00-SEP-002",
+        "2024-06-08T04:20:00-SEP-001",
+        "2024-06-08T04:48:00-SEP-001"
+      ],
+      "source_link": "https://ccmc.gsfc.nasa.gov/DONKI/view/FLR/31335/-1"
+    },
+    {
+      "type": "CME",
+      "id": "2024-06-08T01:53:00-CME-001",
+      "observed_start_time": "2024-06-08T01:53Z",
+      "speed_km_s": 1106.0,
+      "half_angle_deg": 45.0,
+      "cme_type": "O",
+      "source_location": "S17W68",
+      "active_region_number": 13697,
+      "instruments": [
+        "STEREO A: SECCHI/COR2",
+        "SOHO: LASCO/C2",
+        "SOHO: LASCO/C3"
+      ],
+      "linked_event_ids": [
+        "2024-06-08T00:39:00-FLR-001",
+        "2024-06-08T01:23:00-FLR-001",
+        "2024-06-08T02:25:00-SEP-001",
+        "2024-06-08T02:55:00-SEP-001",
+        "2024-06-08T03:09:00-SEP-001",
+        "2024-06-08T03:34:00-SEP-001",
+        "2024-06-08T03:36:00-SEP-001",
+        "2024-06-08T04:14:00-SEP-001",
+        "2024-06-08T04:14:00-SEP-002",
+        "2024-06-08T04:20:00-SEP-001",
+        "2024-06-08T04:48:00-SEP-001",
+        "2024-06-10T03:04:00-IPS-001",
+        "2024-06-10T16:36:00-IPS-001"
+      ],
+      "source_link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/31346/-1",
+      "note": "Large halo CME visible in STEREO A COR2 and SOHO LASCO C2 and C3 imagery. The source appears to be two back-to-back M-class flares from AR13697 with associated dimming signature to the north as well as nice filament ejecta to the west and north. Post-eruptive arcades are beginning to show in SDO/AIA 193. There is a large EUV wave associated with this event, as best seen in SDO/AIA 211."
+    },
+    {
+      "type": "SEP",
+      "id": "2024-06-08T02:25:00-SEP-001",
+      "event_time": "2024-06-08T02:25Z",
+      "instruments": [
+        "GOES-P: SEISS >100 MeV"
+      ],
+      "energy_threshold": ">100 MeV",
+      "linked_event_ids": [
+        "2024-06-08T00:39:00-FLR-001",
+        "2024-06-08T01:23:00-FLR-001",
+        "2024-06-08T01:53:00-CME-001"
+      ],
+      "source_link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/31338/-1"
+    }
+  ],
+  "radiation_series": [
+    {
+      "time": "2024-06-07T00:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.9375,
+      "max_absorbed_dose_rate_uGy_h": 4.9375,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T02:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.8096,
+      "max_absorbed_dose_rate_uGy_h": 5.175,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-07T03:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.9213,
+      "max_absorbed_dose_rate_uGy_h": 4.9213,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T05:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.9238,
+      "max_absorbed_dose_rate_uGy_h": 4.995,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-07T06:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.5163,
+      "max_absorbed_dose_rate_uGy_h": 4.5163,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T08:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.8717,
+      "max_absorbed_dose_rate_uGy_h": 5.1158,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-07T09:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.8225,
+      "max_absorbed_dose_rate_uGy_h": 4.8225,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T11:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.5954,
+      "max_absorbed_dose_rate_uGy_h": 4.6842,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-07T12:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.6404,
+      "max_absorbed_dose_rate_uGy_h": 4.6404,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T14:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.8494,
+      "max_absorbed_dose_rate_uGy_h": 4.9704,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-07T15:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.8504,
+      "max_absorbed_dose_rate_uGy_h": 4.8504,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T17:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.7396,
+      "max_absorbed_dose_rate_uGy_h": 4.7958,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-07T18:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.6796,
+      "max_absorbed_dose_rate_uGy_h": 4.6796,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T20:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.8923,
+      "max_absorbed_dose_rate_uGy_h": 4.9842,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-07T21:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.9946,
+      "max_absorbed_dose_rate_uGy_h": 4.9946,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-07T23:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.8415,
+      "max_absorbed_dose_rate_uGy_h": 5.0137,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-08T00:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4.7529,
+      "max_absorbed_dose_rate_uGy_h": 4.7529,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T02:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 22.1652,
+      "max_absorbed_dose_rate_uGy_h": 39.3192,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-08T03:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 524.25,
+      "max_absorbed_dose_rate_uGy_h": 524.25,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T05:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 1306.3333,
+      "max_absorbed_dose_rate_uGy_h": 1306.3333,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T06:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 3195.25,
+      "max_absorbed_dose_rate_uGy_h": 3195.25,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T07:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 10141.6667,
+      "max_absorbed_dose_rate_uGy_h": 10141.6667,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T08:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 20367.9167,
+      "max_absorbed_dose_rate_uGy_h": 20367.9167,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T09:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 13528.75,
+      "max_absorbed_dose_rate_uGy_h": 13528.75,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T10:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 15669.5833,
+      "max_absorbed_dose_rate_uGy_h": 15669.5833,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T11:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 13762.0833,
+      "max_absorbed_dose_rate_uGy_h": 13762.0833,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T12:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 12534.5833,
+      "max_absorbed_dose_rate_uGy_h": 12534.5833,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T13:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 9944.1667,
+      "max_absorbed_dose_rate_uGy_h": 9944.1667,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T14:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 9454.1667,
+      "max_absorbed_dose_rate_uGy_h": 9454.1667,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T15:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 6690.8333,
+      "max_absorbed_dose_rate_uGy_h": 6690.8333,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T16:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 6048.3333,
+      "max_absorbed_dose_rate_uGy_h": 6048.3333,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T17:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 5067.9167,
+      "max_absorbed_dose_rate_uGy_h": 5067.9167,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T18:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 4384.5833,
+      "max_absorbed_dose_rate_uGy_h": 4384.5833,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T19:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 3707.5,
+      "max_absorbed_dose_rate_uGy_h": 3707.5,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T20:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 3175.0,
+      "max_absorbed_dose_rate_uGy_h": 3175.0,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T21:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 2580.2917,
+      "max_absorbed_dose_rate_uGy_h": 2580.2917,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T22:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 2253.2917,
+      "max_absorbed_dose_rate_uGy_h": 2253.2917,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-08T23:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 1975.875,
+      "max_absorbed_dose_rate_uGy_h": 1975.875,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T00:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 1555.2708,
+      "max_absorbed_dose_rate_uGy_h": 1642.8333,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T02:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 1197.8958,
+      "max_absorbed_dose_rate_uGy_h": 1279.7917,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T03:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 965.0833,
+      "max_absorbed_dose_rate_uGy_h": 965.0833,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T05:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 816.0625,
+      "max_absorbed_dose_rate_uGy_h": 878.0417,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T06:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 710.9583,
+      "max_absorbed_dose_rate_uGy_h": 710.9583,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T08:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 568.7917,
+      "max_absorbed_dose_rate_uGy_h": 592.3333,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T09:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 468.0417,
+      "max_absorbed_dose_rate_uGy_h": 468.0417,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T11:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 415.1458,
+      "max_absorbed_dose_rate_uGy_h": 434.625,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T12:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 367.2667,
+      "max_absorbed_dose_rate_uGy_h": 367.2667,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T14:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 319.1042,
+      "max_absorbed_dose_rate_uGy_h": 327.525,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T15:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 245.7833,
+      "max_absorbed_dose_rate_uGy_h": 245.7833,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T17:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 238.7875,
+      "max_absorbed_dose_rate_uGy_h": 258.5292,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T18:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 233.5208,
+      "max_absorbed_dose_rate_uGy_h": 233.5208,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T20:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 188.8979,
+      "max_absorbed_dose_rate_uGy_h": 204.5708,
+      "sample_count": 2
+    },
+    {
+      "time": "2024-06-09T21:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 164.2667,
+      "max_absorbed_dose_rate_uGy_h": 164.2667,
+      "sample_count": 1
+    },
+    {
+      "time": "2024-06-09T23:00:00Z",
+      "mean_absorbed_dose_rate_uGy_h": 167.7313,
+      "max_absorbed_dose_rate_uGy_h": 172.6125,
+      "sample_count": 2
+    }
+  ]
+}

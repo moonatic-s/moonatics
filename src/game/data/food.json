@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "mission": "food_production",
+    "project": "VEG-05",
+    "sources": [
+      {
+        "study_id": "OSD-766",
+        "investigation_file": "i_Investigation.txt",
+        "sample_file": "s_OSD-766.txt",
+        "title": "The microbial communities of a tomato crop grown in Veggie under different lighting regimes on the International Space Station"
+      },
+      {
+        "study_id": "OSD-767",
+        "investigation_file": "i_Investigation_767.txt",
+        "sample_file": "s_OSD-767.txt",
+        "title": "Stress and light spectral quality influence the transcriptome of a tomato crop on the International Space Station"
+      }
+    ],
+    "excluded_for_gameplay": [
+      "OSD-766 16S sequencing assay table",
+      "OSD-766 ITS sequencing assay table",
+      "OSD-767 RNA-seq assay table"
+    ],
+    "note": "This file contains only experiment-level conditions and observations useful for the educational game. It contains no invented health scores, bonuses, penalties, or gameplay thresholds."
+  },
+  "experiment": {
+    "plant": {
+      "species": "Solanum lycopersicum",
+      "cultivar": "Red Robin"
+    },
+    "platform": "Vegetable Production System (Veggie)",
+    "location": "International Space Station (flight treatment)",
+    "duration_days": 101,
+    "harvest_days_planned": [
+      83,
+      90,
+      100
+    ],
+    "light_cycle": {
+      "light_hours": 16,
+      "dark_hours": 8
+    },
+    "lighting_treatments": {
+      "red_rich": {
+        "nominal_recipe_percent": {
+          "red": 90,
+          "blue": 10
+        },
+        "flight_light_intensity_umol_m2_s": {
+          "red": 228.13,
+          "blue": 29.09,
+          "green": 22.5
+        }
+      },
+      "blue_rich": {
+        "nominal_recipe_percent": {
+          "red": 50,
+          "blue": 50
+        },
+        "flight_light_intensity_umol_m2_s": {
+          "red": 125.43,
+          "blue": 125.36,
+          "green": 26.58
+        }
+      }
+    },
+    "flight_environment_reference_osd766": {
+      "treatment_average_temperature_degC": 23.0,
+      "treatment_average_relative_humidity_percent": 37.6,
+      "average_treatment_co2_ppm": 1946,
+      "context_note": "The OSD-766 sample metadata reports these flight treatment reference values. The investigation protocol separately notes that HOBO humidity measurements at pillow level could be affected by nearby excess water and may not represent canopy humidity."
+    }
+  },
+  "water_management_observations_osd766": {
+    "first_watering_per_pillow_mL": 150,
+    "early_incoming_cabin_air_relative_humidity_percent_approx": 30,
+    "normal_incoming_cabin_air_relative_humidity_percent_approx": 40,
+    "early_period_days_after_initiation": "0-2",
+    "premature_pillow_drying_observed": true,
+    "additional_watering_tasks_initiated": true,
+    "excess_water_frequently_observed_in_flight_units": true,
+    "flight_plants_received_approximately_half_the_water_of_ground_plants": true,
+    "possible_overwatering_stress_despite_lower_total_water": true,
+    "reported_or_possible_stress_effects": [
+      "uneven plant growth",
+      "excess adventitious root formation",
+      "flower and fruit abortion",
+      "visible microbial growth"
+    ],
+    "mechanism_discussed_in_source": "Unbridled capillary wicking from the root mat in microgravity, without gravitational counterforce, was discussed as a likely contributor to visible water accumulation.",
+    "sensor_context": "HOBO data loggers were located at pillow level. The source warns that local humidity measurements may not represent canopy humidity because of excess water near the sensors; ISS air circulating into Veggie was reported as drier (37.6% RH)."
+  },
+  "plant_and_fruit_outcomes_osd766": {
+    "water_stress_contributed_to_flower_and_fruit_loss": true,
+    "red_rich_flight": {
+      "surviving_plants": 5,
+      "ripe_fruits_produced": 5
+    },
+    "blue_rich_flight": {
+      "surviving_plants": 4,
+      "total_fruits_produced": 10,
+      "ripe_fruits_by_day_100": 6
+    },
+    "interpretation_note": "These observed outcomes should not be treated as proof that one light treatment is universally superior; watering and other flight conditions were also involved."
+  },
+  "lighting_and_stress_findings_osd767": {
+    "spaceflight_influenced_gene_expression": true,
+    "adventitious_roots_showed_pronounced_transcriptional_changes": true,
+    "spaceflight_showed_extensive_adventitious_root_formation": true,
+    "prominent_response_categories": [
+      "stress responses",
+      "hormonal signaling",
+      "metabolic pathways",
+      "oxidative stress response",
+      "secondary metabolite biosynthesis"
+    ],
+    "red_rich_observation": "Red-rich lighting appeared to stabilize gene-expression patterns and favored metabolic stability in the study.",
+    "blue_rich_observation": "Blue-rich lighting induced greater variability across conditions and enhanced stress-responsive pathways in leaf tissues in the study.",
+    "interpretation_note": "These are study-level molecular observations and are not converted here into numerical plant-health scores."
+  }
+}
