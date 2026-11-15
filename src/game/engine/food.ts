@@ -86,8 +86,8 @@ export function evaluateFoodProduction(
     1,
   );
 
-  // OSD-767 transcriptomics: higher blue ratio boosts fruit ceiling while raising oxidative pathway stress.
-  const blueShare = bluePct / 100;
+  // Light recipe is deliberately neutral: OSD-766/767 are too small and confounded to rank one recipe above the other,
+  // so neither recipe gets a yield bonus or a stress penalty here. Light matters only through total PAR.
   const excessTempStress = Math.abs(cabinTempC - 23.0) * 3.8;
   const co2Penalty =
     cabinCo2 > 4200
@@ -95,9 +95,8 @@ export function evaluateFoodProduction(
       : cabinCo2 < 700
         ? (700 - cabinCo2) * 0.025
         : 0;
-  const blueStressBase = Math.max(0, (blueShare - 0.14) * 52);
   const oxidativeStressPct = roundTo(
-    clamp(blueStressBase + excessTempStress + dryingStress * 0.25, 0, 100),
+    clamp(excessTempStress + dryingStress * 0.25, 0, 100),
     1,
   );
 
@@ -107,7 +106,6 @@ export function evaluateFoodProduction(
     totalParUmolM2s < 120 ? (120 - totalParUmolM2s) * 0.42 : 0;
   const excessParStress =
     totalParUmolM2s > 340 ? (totalParUmolM2s - 340) * 0.16 : 0;
-  const fruitYieldMultiplier = blueShare >= 0.35 ? 1.16 : 1.0; // Reflects OSD-766 10 total/6 ripe vs 5 ripe
   const combinedStress =
     rootStressPct * 0.68 +
     oxidativeStressPct * 0.36 +
@@ -129,21 +127,19 @@ export function evaluateFoodProduction(
   const foodProductionScore = roundTo(
     clamp(
       cropHealthPct *
-        (0.76 + milestoneFactor * 0.24) *
-        (fruitYieldMultiplier > 1.05 && oxidativeStressPct < 28 ? 1.06 : 1.0),
+        (0.76 + milestoneFactor * 0.24),
       12,
       100,
     ),
     1,
   );
 
-  // Estimated ripe tomato count anchored to OSD-766 observations (5 for red-rich, up to 6 for blue-rich when healthy).
+  // Ripe-fruit ceiling: the midpoint of the two observed counts (5 and 6), the same for every recipe.
+  const observedRipe = foodData?.plant_and_fruit_outcomes_osd766;
   const maxFruits =
-    blueShare >= 0.38
-      ? (foodData?.plant_and_fruit_outcomes_osd766?.blue_rich_flight
-          ?.ripe_fruits_by_day_100 ?? 6)
-      : (foodData?.plant_and_fruit_outcomes_osd766?.red_rich_flight
-          ?.ripe_fruits_produced ?? 5);
+    ((observedRipe?.red_rich_flight?.ripe_fruits_produced ?? 5) +
+      (observedRipe?.blue_rich_flight?.ripe_fruits_by_day_100 ?? 6)) /
+    2;
   const fruitHealthRatio =
     cropHealthPct < 35 || totalParUmolM2s < 90
       ? 0
@@ -166,10 +162,10 @@ export function evaluateFoodProduction(
       bluePct,
       recipeLabel:
         redPct >= 75
-          ? "Red-Rich (Calm Expression)"
+          ? "Red-Rich (90R:10B)"
           : bluePct >= 38
-            ? "50R:50B High-Yield Mix"
-            : "Balanced Custom Mix",
+            ? "Blue-Rich (50R:50B)"
+            : "Custom Mix",
     },
     ledKw,
     waterDemandLPerStep,

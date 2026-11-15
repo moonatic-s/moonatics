@@ -133,17 +133,16 @@ describe("Act 1 -> Act 2 cabin & greenhouse couplings", () => {
 });
 
 describe("Act 2 lighting presets, Day 1->100 steps, and carry-over into Act 3", () => {
-  it("models 90R:10B vs 50R:50B oxidative trade-off and LED battery drain into storm budget", () => {
+  it("treats 90R:10B and 50R:50B neutrally and models LED battery drain into storm budget", () => {
     const state = jumpToAct2();
 
     const redRich = applyFoodPreset(state, "red_rich");
     const blueRich = applyFoodPreset(state, "blue_rich");
     expect(redRich.subSystems.greenhouse.spectralMix.redPct).toBe(90);
     expect(blueRich.subSystems.greenhouse.spectralMix.bluePct).toBe(50);
-    expect(
-      blueRich.subSystems.greenhouse.oxidativeStressPct >
-        redRich.subSystems.greenhouse.oxidativeStressPct,
-    ).toBeTruthy();
+    expect(blueRich.subSystems.greenhouse.oxidativeStressPct).toBe(
+      redRich.subSystems.greenhouse.oxidativeStressPct,
+    );
 
     // Crank both LEDs to 100% and step through milestones Day 1 -> 10 -> 30 -> 60 -> 100
     let drained = updateFoodControls(state, {
@@ -178,7 +177,7 @@ describe("Act 2 lighting presets, Day 1->100 steps, and carry-over into Act 3", 
     ).toBeTruthy();
   });
 
-  it("reproduces VEG-05 5 vs 6 ripe fruit contrast and prevents dark-room or flooding exploits", () => {
+  it("gives both light recipes the same yield and prevents dark-room or flooding exploits", () => {
     const base = jumpToAct2();
 
     const redEnd = stepUntilActComplete(
@@ -187,12 +186,14 @@ describe("Act 2 lighting presets, Day 1->100 steps, and carry-over into Act 3", 
     const blueEnd = stepUntilActComplete(
       updateFoodControls(applyFoodPreset(base, "blue_rich"), { waterFlow: 58 }),
     );
-    expect(redEnd.subSystems.greenhouse.estimatedRipeFruits).toBe(5);
-    expect(blueEnd.subSystems.greenhouse.estimatedRipeFruits).toBe(6);
-    expect(
-      blueEnd.subSystems.greenhouse.oxidativeStressPct >
-        redEnd.subSystems.greenhouse.oxidativeStressPct,
-    ).toBeTruthy();
+    // same care, same result: the recipe gives no yield bonus
+    expect(blueEnd.subSystems.greenhouse.estimatedRipeFruits).toBe(
+      redEnd.subSystems.greenhouse.estimatedRipeFruits,
+    );
+    expect(blueEnd.subSystems.greenhouse.oxidativeStressPct).toBe(
+      redEnd.subSystems.greenhouse.oxidativeStressPct,
+    );
+    expect(redEnd.subSystems.greenhouse.estimatedRipeFruits).toBeGreaterThan(0);
 
     const darkFail = stepUntilActComplete(
       updateFoodControls(base, { redLight: 5, blueLight: 5, waterFlow: 50 }),

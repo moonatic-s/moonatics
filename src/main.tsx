@@ -1,7 +1,9 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { Moonatics } from "@/components/game/moonatics";
-import "./styles.css";
+import { applyTheme, readTheme } from "./theme";
+
+applyTheme(readTheme());
 
 /** If something unexpected breaks, show a calm page with a way back instead of a blank screen. */
 class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {

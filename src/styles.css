@@ -3,8 +3,9 @@
 @source "../src";
 @custom-variant dark (&:is(.dark *));
 @theme inline {
- --font-sans: 'Barlow', sans-serif;
- --font-display: 'Chakra Petch', sans-serif;
+ --font-sans: 'Atkinson Hyperlegible', 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+ --font-display: 'Saira Semi Condensed', 'Atkinson Hyperlegible', sans-serif;
+ --font-stencil: 'Saira Stencil One', 'Saira Semi Condensed', sans-serif;
  --color-background: var(--background); --color-foreground: var(--foreground);
  --color-card: var(--card); --color-card-foreground: var(--foreground);
  --color-popover: var(--card); --color-popover-foreground: var(--foreground);
@@ -14,17 +15,18 @@
  --color-accent: var(--accent); --color-accent-foreground: var(--foreground);
  --color-destructive: var(--destructive); --color-border: var(--border);
  --color-input: var(--border); --color-ring: var(--primary);
- --radius-sm: 6px; --radius-md: 8px; --radius-lg: 16px; --radius-xl: 20px;
+ --radius-sm: 3px; --radius-md: 5px; --radius-lg: 8px; --radius-xl: 10px;
 }
 :root, .dark {
- --background: oklch(0.16 0.034 252); --foreground: oklch(0.97 0.009 230);
- --card: oklch(0.22 0.035 252); --primary: oklch(0.83 0.135 205); --primary-foreground: oklch(0.17 0.039 246);
- --secondary: oklch(0.26 0.039 251); --muted-foreground: oklch(0.73 0.028 237);
- --accent: oklch(0.32 0.045 245); --border: oklch(0.69 0.066 230 / 0.24);
- --destructive: oklch(0.65 0.2 25); --stable: oklch(0.82 0.15 153); --attention: oklch(0.85 0.15 86);
- --special: oklch(0.77 0.11 295); --overlay: oklch(0.115 0.032 250);
- --glow: 0 0 28px oklch(0.8 0.13 205 / 0.17);
- --panel-shadow: 0 12px 40px oklch(0.08 0.015 250 / 0.2);
+ --background: oklch(0.255 0.018 165); --foreground: oklch(0.95 0.012 95);
+ --card: oklch(0.32 0.02 165); --primary: oklch(0.76 0.165 52); --primary-foreground: oklch(0.2 0.02 60);
+ --secondary: oklch(0.36 0.022 165); --muted-foreground: oklch(0.79 0.022 130);
+ --accent: oklch(0.42 0.03 150); --border: oklch(0.82 0.035 120 / 0.3);
+ --destructive: oklch(0.66 0.2 28); --stable: oklch(0.8 0.15 150); --attention: oklch(0.85 0.15 92);
+ --special: oklch(0.74 0.12 245); --overlay: oklch(0.2 0.016 165);
+ --glow: 0 0 0 transparent;
+ --panel-shadow: 0 3px 0 oklch(0.17 0.016 165), 0 10px 24px oklch(0.12 0.01 165 / 0.28);
+ --stamp: inset 0 1px 0 oklch(1 0 0 / 0.09), inset 0 -2px 0 oklch(0 0 0 / 0.22);
 }
 @layer base { * { border-color: var(--border); } body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); } button { font-family: inherit; } h1,h2,h3 { font-family: var(--font-display); letter-spacing: 0; } button:focus-visible { outline: 2px solid var(--primary); outline-offset: 5px; } ::selection { background: var(--primary); color: var(--background); } }
 .game-shell { min-height: 100svh; position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; }
@@ -258,7 +260,7 @@
 .lever-root { position: relative; display: flex; align-items: center; width: 100%; height: 44px; touch-action: none; user-select: none; cursor: pointer; }
 .lever-track { position: relative; flex-grow: 1; height: 8px; border-radius: 99px; background: color-mix(in oklch, var(--ch) 18%, var(--overlay)); border: 1px solid color-mix(in oklch, var(--ch) 40%, transparent); }
 .lever-fill { position: absolute; height: 100%; border-radius: 99px; background: var(--ch); }
-.lever-thumb { display: block; width: 18px; height: 30px; border-radius: 5px; background: linear-gradient(180deg, color-mix(in oklch, var(--ch) 40%, white), var(--ch)); border: 1px solid color-mix(in oklch, var(--ch) 60%, black); box-shadow: 0 3px 10px oklch(0.05 0.01 250 / 0.5); cursor: grab; }
+.lever-thumb { display: block; width: 18px; height: 30px; border-radius: 5px; background: linear-gradient(180deg, color-mix(in oklch, var(--ch) 40%, white), var(--ch)); border: 1px solid color-mix(in oklch, var(--ch) 60%, black); box-shadow: 0 3px 10px oklch(0.05 0.010 165 / 0.5); cursor: grab; }
 .lever-thumb:active { cursor: grabbing; }
 .lever-thumb:focus-visible { outline: 2px solid var(--foreground); outline-offset: 3px; }
 .lever-scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted-foreground); }
@@ -283,7 +285,7 @@
 .cells { display: flex; gap: 4px; margin: 6px 0 12px; }
 .cell { flex: 1; height: 28px; border-radius: 5px; background: color-mix(in oklch, var(--foreground) 9%, transparent); }
 .cell-air { background: var(--ch-air); } .cell-heat { background: var(--ch-heat); } .cell-water { background: var(--ch-water); }
-.cell-over { background-image: repeating-linear-gradient(45deg, transparent 0 4px, oklch(0.1 0.02 250 / 0.5) 4px 8px); outline: 2px solid var(--zone-off); outline-offset: -2px; }
+.cell-over { background-image: repeating-linear-gradient(45deg, transparent 0 4px, oklch(0.1 0.020 165 / 0.5) 4px 8px); outline: 2px solid var(--zone-off); outline-offset: -2px; }
 .cell-solar-end { margin-right: 12px; position: relative; }
 .cell-solar-end::after { content: ""; position: absolute; right: -8px; top: -5px; bottom: -5px; width: 2px; background: var(--foreground); border-radius: 1px; }
 .ledger-meters { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
@@ -326,7 +328,7 @@
 /* ===== Specialist (ages 10-12): precise instrument panel ===== */
 .console-specialist { --radius: 4px; }
 .console-specialist .console-channels, .console-specialist .ledger, .console-specialist .forecast { border-radius: 6px; }
-.console-specialist .gauge-bar::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), oklch(0.1 0.02 250 / 0.55) calc(10% - 1px) 10%); }
+.console-specialist .gauge-bar::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), oklch(0.1 0.020 165 / 0.55) calc(10% - 1px) 10%); }
 .console-specialist .gauge-bar { height: 14px; }
 .console-specialist .why { font-size: 12px; color: var(--muted-foreground); }
 .console-specialist .lever-thumb { width: 12px; height: 28px; border-radius: 2px; }
@@ -366,7 +368,7 @@
 .guide { display: flex; gap: 12px; align-items: flex-start; max-width: 600px; }
 .guide-avatar { width: 50px; height: 50px; flex: none; }
 .guide-helmet { fill: oklch(0.93 0.01 230); stroke: var(--primary); stroke-width: 2; }
-.guide-visor { fill: oklch(0.2 0.05 250); }
+.guide-visor { fill: oklch(0.2 0.030 165); }
 .guide-glint { stroke: var(--primary); fill: none; stroke-width: 1.5; stroke-linecap: round; opacity: 0.85; }
 .guide-patch { fill: var(--primary); }
 .guide-bubble { position: relative; margin: 0; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--border); background: color-mix(in oklch, var(--card) 86%, transparent); font-size: 14px; line-height: 1.45; animation: bubble-in 0.25s ease-out; }
@@ -384,9 +386,9 @@
 
 /* habitat illustration (CSS/SVG only; reads state, never changes it) */
 .habitat { width: 100%; height: auto; display: block; }
-.hab-ground { fill: oklch(0.3 0.02 250 / 0.55); }
-.hab-module { fill: oklch(0.3 0.04 250); stroke: color-mix(in oklch, var(--primary) 55%, transparent); stroke-width: 1.5; }
-.hab-dome { fill: oklch(0.33 0.045 250); }
+.hab-ground { fill: oklch(0.3 0.020 165 / 0.55); }
+.hab-module { fill: oklch(0.3 0.030 165); stroke: color-mix(in oklch, var(--primary) 55%, transparent); stroke-width: 1.5; }
+.hab-dome { fill: oklch(0.33 0.030 165); }
 .hab-window { fill: oklch(0.82 0.12 85); opacity: 0.85; transition: opacity 0.6s; }
 .habitat-dim .hab-window { opacity: 0.25; }
 .habitat-stable .hab-window { animation: window-glow 4s ease-in-out infinite; filter: drop-shadow(0 0 4px oklch(0.85 0.12 85 / 0.6)); }
@@ -394,16 +396,16 @@
 .hab-label { fill: var(--muted-foreground); font-size: 10px; font-family: var(--font-sans); }
 .hab-lamp { fill: var(--zone-safe); transition: fill 0.4s; }
 .hab-air[data-tone="warn"] .hab-lamp { fill: var(--zone-caution); } .hab-air[data-tone="bad"] .hab-lamp { fill: var(--zone-off); }
-.hab-vent { fill: oklch(0.2 0.03 250); }
+.hab-vent { fill: oklch(0.2 0.030 165); }
 .hab-airflow path { fill: none; stroke: var(--ch-air); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 5 7; opacity: 0; transition: opacity 0.3s; }
 .hab-airflow[data-active="true"] path { opacity: 0.9; animation: air-flow 1.2s linear infinite; }
 @keyframes air-flow { to { stroke-dashoffset: -24; } }
-.hab-panel { fill: oklch(0.36 0.08 250); stroke: var(--primary); stroke-width: 1.5; }
+.hab-panel { fill: oklch(0.36 0.030 165); stroke: var(--primary); stroke-width: 1.5; }
 .hab-panel-grid { stroke: color-mix(in oklch, var(--primary) 60%, transparent); stroke-width: 1; fill: none; }
 .hab-bolt { fill: var(--attention); transition: fill 0.4s; }
 .hab-solar[data-low="true"] .hab-bolt { fill: var(--zone-off); }
 .hab-wire { stroke: color-mix(in oklch, var(--foreground) 35%, transparent); stroke-width: 2; stroke-dasharray: 3 3; }
-.hab-tank { fill: oklch(0.2 0.03 250); stroke: var(--ch-water); stroke-width: 1.5; }
+.hab-tank { fill: oklch(0.2 0.030 165); stroke: var(--ch-water); stroke-width: 1.5; }
 .hab-tank-fill { fill: color-mix(in oklch, var(--ch-water) 70%, transparent); transition: y 0.4s, height 0.4s; }
 
 /* NASA observation vs simulated habitat */
@@ -420,7 +422,7 @@
 .value-number-small { font-size: 15px; }
 .value-delta { font-size: 11px; color: var(--muted-foreground); }
 .gauge-zone { display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.zone-name { font-size: 10px; font-weight: 700; letter-spacing: 0.6px; white-space: nowrap; color: oklch(0.14 0.03 250); }
+.zone-name { font-size: 10px; font-weight: 700; letter-spacing: 0.6px; white-space: nowrap; color: oklch(0.14 0.030 165); }
 .zone-low .zone-name, .zone-high .zone-name { color: oklch(0.98 0.01 230); }
 .mark-nasa { top: -10px; bottom: auto; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid var(--primary); z-index: 3; }
 .key-nasa { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid var(--primary); }
@@ -448,7 +450,7 @@
 .science-why p { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted-foreground); }
 
 /* "6 hours later" beat and results card */
-.later-banner { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; pointer-events: none; background: oklch(0.1 0.03 250 / 0.55); animation: later-flash 0.9s ease-in-out both; }
+.later-banner { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; pointer-events: none; background: oklch(0.1 0.030 165 / 0.55); animation: later-flash 0.9s ease-in-out both; }
 .later-banner span { font-family: var(--font-display); font-size: clamp(28px, 6vw, 56px); font-weight: 700; letter-spacing: 4px; color: var(--primary); text-shadow: var(--glow); text-align: center; padding: 0 16px; }
 @keyframes later-flash { 0% { opacity: 0; } 25% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
 .console-result { display: flex; justify-content: center; }
@@ -509,7 +511,7 @@
   --zone-safe: var(--stable); --zone-caution: var(--attention); --zone-off: var(--destructive);
   position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; overflow-y: auto;
   padding: 16px clamp(14px, 4vw, 52px) 14px;
-  background: radial-gradient(ellipse at 50% 115%, oklch(0.32 0.09 225 / 0.35), transparent 62%), radial-gradient(ellipse at 15% 0%, oklch(0.3 0.07 280 / 0.18), transparent 50%), oklch(0.115 0.03 252 / 0.985);
+  background: radial-gradient(ellipse at 50% 115%, oklch(0.32 0.030 165 / 0.35), transparent 62%), radial-gradient(ellipse at 15% 0%, oklch(0.3 0.030 165 / 0.18), transparent 50%), oklch(0.115 0.030 165 / 0.985);
   animation: briefing-in 0.5s ease-out;
 }
 .briefing::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5; background-image: radial-gradient(1.2px 1.2px at 12% 22%, oklch(0.95 0.02 230 / 0.7), transparent), radial-gradient(1px 1px at 78% 14%, oklch(0.95 0.02 230 / 0.6), transparent), radial-gradient(1.4px 1.4px at 90% 62%, oklch(0.95 0.02 230 / 0.5), transparent), radial-gradient(1px 1px at 34% 78%, oklch(0.95 0.02 230 / 0.5), transparent), radial-gradient(1px 1px at 58% 38%, oklch(0.95 0.02 230 / 0.4), transparent); }
@@ -559,16 +561,16 @@
 
 /* habitat cutaway */
 .bh { width: 100%; height: auto; animation: briefing-in 0.6s ease-out; }
-.bh-ground { fill: oklch(0.26 0.025 250); } .bh-crater { fill: oklch(0.2 0.02 250); }
-.bh-shell { fill: oklch(0.3 0.04 250); stroke: color-mix(in oklch, var(--primary) 55%, transparent); stroke-width: 2; }
-.bh-interior { fill: oklch(0.22 0.05 245); animation: interior-on 0.8s 0.5s ease-out backwards; }
-@keyframes interior-on { from { fill: oklch(0.13 0.03 250); } }
+.bh-ground { fill: oklch(0.26 0.025 165); } .bh-crater { fill: oklch(0.2 0.020 165); }
+.bh-shell { fill: oklch(0.3 0.030 165); stroke: color-mix(in oklch, var(--primary) 55%, transparent); stroke-width: 2; }
+.bh-interior { fill: oklch(0.22 0.030 165); animation: interior-on 0.8s 0.5s ease-out backwards; }
+@keyframes interior-on { from { fill: oklch(0.13 0.030 165); } }
 .bh-glow { fill: oklch(0.85 0.12 85 / 0.16); animation: lights-on 0.8s 0.6s ease-out backwards; }
 .bh-light { fill: oklch(0.92 0.1 85); animation: lights-on 0.5s 0.5s ease-out backwards; }
 @keyframes lights-on { from { opacity: 0; } }
 .bh-floor { stroke: color-mix(in oklch, var(--primary) 35%, transparent); stroke-width: 1.5; }
-.bh-prop { fill: oklch(0.28 0.04 250); stroke: color-mix(in oklch, var(--primary) 30%, transparent); stroke-width: 1; }
-.bh-duct { fill: oklch(0.28 0.04 250); stroke: color-mix(in oklch, var(--ch-air) 50%, transparent); stroke-width: 1.5; }
+.bh-prop { fill: oklch(0.28 0.030 165); stroke: color-mix(in oklch, var(--primary) 30%, transparent); stroke-width: 1; }
+.bh-duct { fill: oklch(0.28 0.030 165); stroke: color-mix(in oklch, var(--ch-air) 50%, transparent); stroke-width: 1.5; }
 .bh-fan, .co2-fan { transform-box: fill-box; transform-origin: center; animation: fan-spin 2.4s linear infinite; }
 @keyframes fan-spin { to { transform: rotate(360deg); } }
 .bh-fan-hub { fill: var(--foreground); } .bh-blade { fill: color-mix(in oklch, var(--ch-air) 80%, white); }
@@ -581,22 +583,22 @@
 .bh-dot { fill: var(--ch-air); }
 .bh-sensor-heat .bh-dot { fill: var(--ch-heat); } .bh-sensor-heat .bh-ping { stroke: var(--ch-heat); }
 .bh-sensor-water .bh-dot { fill: var(--ch-water); } .bh-sensor-water .bh-ping { stroke: var(--ch-water); }
-.bh-sensor-label { fill: var(--foreground); font-size: 12px; font-weight: 700; paint-order: stroke; stroke: oklch(0.15 0.03 250); stroke-width: 3px; }
+.bh-sensor-label { fill: var(--foreground); font-size: 12px; font-weight: 700; paint-order: stroke; stroke: oklch(0.15 0.030 165); stroke-width: 3px; }
 .bh-label { fill: var(--muted-foreground); font-size: 11px; }
-.bh-tank { fill: oklch(0.2 0.03 250); stroke: var(--ch-water); stroke-width: 2; }
+.bh-tank { fill: oklch(0.2 0.030 165); stroke: var(--ch-water); stroke-width: 2; }
 .bh-tank-fill { fill: color-mix(in oklch, var(--ch-water) 55%, transparent); }
 .bh-pipe { stroke: color-mix(in oklch, var(--ch-water) 70%, transparent); stroke-width: 3; stroke-dasharray: 4 4; animation: dash-flow 1.2s linear infinite; }
 .bh-wire { fill: none; stroke: var(--attention); stroke-width: 2; stroke-dasharray: 5 5; animation: dash-flow 1s linear infinite; }
 @keyframes dash-flow { to { stroke-dashoffset: -20; } }
-.bh-panel { fill: oklch(0.36 0.08 250); stroke: var(--primary); stroke-width: 1.5; }
+.bh-panel { fill: oklch(0.36 0.030 165); stroke: var(--primary); stroke-width: 1.5; }
 .bh-panel-grid { stroke: color-mix(in oklch, var(--primary) 60%, transparent); stroke-width: 1; fill: none; }
 .bh-bolt { fill: var(--attention); }
 
 /* astronaut */
-.astro-helmet { fill: oklch(0.94 0.01 230); stroke: oklch(0.7 0.03 240); stroke-width: 2; }
-.astro-visor { fill: oklch(0.2 0.05 250); }
+.astro-helmet { fill: oklch(0.94 0.01 230); stroke: oklch(0.7 0.030 165); stroke-width: 2; }
+.astro-visor { fill: oklch(0.2 0.030 165); }
 .astro-glint { fill: none; stroke: var(--primary); stroke-width: 1.6; stroke-linecap: round; }
-.astro-body { fill: oklch(0.88 0.01 230); } .astro-pack { fill: oklch(0.72 0.02 240); } .astro-leg { fill: oklch(0.84 0.01 230); }
+.astro-body { fill: oklch(0.88 0.010 165); } .astro-pack { fill: oklch(0.72 0.020 165); } .astro-leg { fill: oklch(0.84 0.010 165); }
 .astro-patch { fill: var(--primary); }
 .astro-breathe { transform-box: fill-box; transform-origin: 50% 100%; animation: breathe 3.4s ease-in-out infinite; }
 @keyframes breathe { 50% { transform: scale(1.035, 1.025); } }
@@ -611,8 +613,8 @@
 .concept-card p { margin: 0; font-size: 15px; line-height: 1.5; }
 .briefing-explorer .concept-card p { font-size: 17px; }
 .demo { width: 100%; height: auto; display: block; }
-.demo-room { fill: oklch(0.2 0.04 250); stroke: color-mix(in oklch, var(--ch) 40%, transparent); stroke-width: 1.5; }
-.demo-box { fill: oklch(0.28 0.04 250); stroke: color-mix(in oklch, var(--ch) 60%, transparent); stroke-width: 1.5; }
+.demo-room { fill: oklch(0.2 0.030 165); stroke: color-mix(in oklch, var(--ch) 40%, transparent); stroke-width: 1.5; }
+.demo-box { fill: oklch(0.28 0.030 165); stroke: color-mix(in oklch, var(--ch) 60%, transparent); stroke-width: 1.5; }
 .demo-tag { fill: var(--foreground); font-size: 11px; font-weight: 600; }
 .co2-breath { fill: none; stroke: var(--muted-foreground); stroke-width: 2; stroke-linecap: round; animation: co2-breath 7s infinite; }
 @keyframes co2-breath { 0%, 8% { opacity: 0; } 12% { opacity: 1; } 22%, 100% { opacity: 0; } }
@@ -625,7 +627,7 @@
 @keyframes tag-first { 0%, 48% { opacity: 1; } 54%, 96% { opacity: 0.3; } 100% { opacity: 1; } }
 @keyframes tag-second { 0%, 48% { opacity: 0.3; } 54%, 92% { opacity: 1; } 100% { opacity: 0.3; } }
 .temp-room { animation: temp-shift 9s infinite; }
-@keyframes temp-shift { 0%, 28% { fill: oklch(0.3 0.09 240); } 40%, 58% { fill: oklch(0.26 0.03 250); } 70%, 92% { fill: oklch(0.36 0.1 55); } 100% { fill: oklch(0.3 0.09 240); } }
+@keyframes temp-shift { 0%, 28% { fill: oklch(0.3 0.030 165); } 40%, 58% { fill: oklch(0.26 0.030 165); } 70%, 92% { fill: oklch(0.36 0.1 55); } 100% { fill: oklch(0.3 0.030 165); } }
 .temp-level { fill: var(--ch-heat); transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(0.62); animation: temp-level 9s infinite; }
 @keyframes temp-level { 0%, 28% { transform: scaleY(0.3); } 40%, 58% { transform: scaleY(0.62); } 70%, 92% { transform: scaleY(0.95); } 100% { transform: scaleY(0.3); } }
 .temp-tag-a { animation: temp-a 9s infinite; } .temp-tag-b { animation: temp-b 9s infinite; } .temp-tag-c { animation: temp-c 9s infinite; }
@@ -739,7 +741,7 @@
 }
 
 /* keep Skip and Back/Next within reach on tall scenes (phones) */
-.briefing-top, .briefing-bottom { position: sticky; z-index: 5; background: color-mix(in oklch, oklch(0.115 0.03 252) 92%, transparent); backdrop-filter: blur(8px); }
+.briefing-top, .briefing-bottom { position: sticky; z-index: 5; background: color-mix(in oklch, oklch(0.115 0.030 165) 92%, transparent); backdrop-filter: blur(8px); }
 .briefing-top { top: 0; padding: 4px 0 8px; margin-top: -4px; }
 .briefing-bottom { bottom: 0; padding: 10px 0 calc(8px + env(safe-area-inset-bottom)); margin-bottom: -6px; border-top: 1px solid color-mix(in oklch, var(--border) 60%, transparent); }
 .briefing-stage > .scene { min-width: 0; max-width: 100%; }
@@ -776,15 +778,15 @@
 .gh { --gh-light: oklch(0.86 0.04 200); --gh-leaf: oklch(0.72 0.17 145); --gh-stem: oklch(0.62 0.15 145); width: 100%; height: auto; max-height: 44vh; display: block; }
 .gh[data-light="red"] { --gh-light: oklch(0.72 0.18 18); }
 .gh[data-light="blue"] { --gh-light: oklch(0.62 0.17 285); }
-.gh-glass { fill: color-mix(in oklch, var(--gh-light) 17%, oklch(0.17 0.04 250)); stroke: color-mix(in oklch, var(--primary) 40%, transparent); stroke-width: 2; transition: fill 1s ease-in-out; }
+.gh-glass { fill: color-mix(in oklch, var(--gh-light) 17%, oklch(0.17 0.030 165)); stroke: color-mix(in oklch, var(--primary) 40%, transparent); stroke-width: 2; transition: fill 1s ease-in-out; }
 .gh-rib { fill: none; stroke: color-mix(in oklch, var(--primary) 28%, transparent); stroke-width: 1.5; }
 /* the beam gradient reads currentColor from the SVG root, so the colour is set there */
 .gh { color: var(--gh-light); transition: color 1s ease-in-out; }
 .gh-lamp { fill: var(--gh-light); filter: drop-shadow(0 0 8px var(--gh-light)); transition: fill 1s ease-in-out; }
-.gh-planter { fill: oklch(0.3 0.03 250); stroke: color-mix(in oklch, var(--primary) 30%, transparent); stroke-width: 1.5; }
+.gh-planter { fill: oklch(0.3 0.030 165); stroke: color-mix(in oklch, var(--primary) 30%, transparent); stroke-width: 1.5; }
 .gh-soil { fill: oklch(0.33 0.05 55); transition: fill 1.6s ease-in-out; }
 .plant-dry .gh-soil { fill: oklch(0.5 0.06 80); }
-.plant-wet .gh-soil { fill: oklch(0.27 0.05 240); }
+.plant-wet .gh-soil { fill: oklch(0.27 0.030 165); }
 .gh-crack { fill: none; stroke: oklch(0.3 0.04 55); stroke-width: 1.8; stroke-linecap: round; opacity: 0; transition: opacity 1.2s ease-in-out; }
 .plant-dry .gh-crack { opacity: 0.9; }
 .gh-pool { fill: oklch(0.65 0.12 235 / 0.55); opacity: 0; transform-box: fill-box; transform-origin: center; transform: scaleX(0.4); transition: opacity 1.6s ease-in-out, transform 1.6s ease-in-out; }
@@ -828,7 +830,7 @@
 .gh-switch-red.gh-switch-on { color: oklch(0.78 0.16 18); } .gh-switch-blueword.gh-switch-on { color: oklch(0.76 0.15 285); }
 .gh-switch-track { position: relative; width: 92px; height: 28px; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; }
 .gh-switch-track::before { content: ""; position: absolute; left: 12px; right: 12px; top: 50%; height: 2px; background: var(--border); }
-.gh-switch-stop { position: relative; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--muted-foreground); background: oklch(0.15 0.03 250); }
+.gh-switch-stop { position: relative; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--muted-foreground); background: oklch(0.15 0.030 165); }
 .gh-switch-thumb { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: oklch(0.75 0.16 18); box-shadow: 0 0 10px oklch(0.75 0.16 18 / 0.5); transition: left 0.35s ease-in-out, background 0.35s, box-shadow 0.35s; }
 .gh-switch-blue .gh-switch-thumb { left: calc(100% - 25px); background: oklch(0.68 0.16 285); box-shadow: 0 0 10px oklch(0.68 0.16 285 / 0.5); }
 .gh-mix { margin: 0; text-align: center; font-size: 20px; }
@@ -896,14 +898,14 @@
 .gp { --gh-leaf: oklch(0.72 0.17 145); --gh-leaf-dim: oklch(0.62 0.1 130); position: relative; width: 100%; max-width: 440px; margin-inline: auto; aspect-ratio: 400 / 440; }
 .gp svg { width: 100%; height: 100%; display: block; overflow: visible; color: inherit; transition: color 0.9s ease; }
 .gp-light-red { color: oklch(0.7 0.2 15); } .gp-light-blue { color: oklch(0.62 0.2 285); }
-.gp-glass { fill: color-mix(in oklch, currentColor 7%, oklch(0.2 0.04 240) 70%); stroke: oklch(0.7 0.1 205); stroke-width: 2.5; transition: fill 0.9s ease; }
-.gp-rib { stroke: oklch(0.7 0.1 205 / 0.35); stroke-width: 1.5; fill: none; }
+.gp-glass { fill: color-mix(in oklch, currentColor 7%, oklch(0.2 0.030 165) 70%); stroke: oklch(0.7 0.11 85); stroke-width: 2.5; transition: fill 0.9s ease; }
+.gp-rib { stroke: oklch(0.7 0.11 85 / 0.35); stroke-width: 1.5; fill: none; }
 .gp-beam { opacity: 0.9; }
 .gp-lamp { fill: color-mix(in oklch, currentColor 55%, white); transition: fill 0.9s ease; }
-.gp-tank { fill: oklch(0.28 0.05 235); stroke: oklch(0.7 0.1 205); stroke-width: 2; }
+.gp-tank { fill: oklch(0.28 0.030 165); stroke: oklch(0.7 0.11 85); stroke-width: 2; }
 .gp-tank-fill { fill: oklch(0.72 0.13 235); }
 .gp-pipe { stroke: oklch(0.72 0.13 235); stroke-width: 5; stroke-linecap: round; fill: none; }
-.gp-tray { fill: oklch(0.34 0.04 230); stroke: oklch(0.7 0.1 205); stroke-width: 2; }
+.gp-tray { fill: oklch(0.34 0.030 165); stroke: oklch(0.7 0.11 85); stroke-width: 2; }
 .gp-pillow { fill: oklch(0.38 0.07 55); transition: fill 0.9s ease; }
 .gp-crack { stroke: oklch(0.22 0.04 50); stroke-width: 2; fill: none; stroke-linecap: round; opacity: 0; transition: opacity 0.9s ease; }
 .gp-wetspots circle { fill: oklch(0.75 0.13 235); }
@@ -998,15 +1000,15 @@
 @media (prefers-reduced-motion: reduce) { .gp *, .gg * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
 /* greenhouse game polish */
 .gp-spot { color: var(--foreground); }
-.gp-glass { fill: color-mix(in oklch, currentColor 9%, oklch(0.16 0.04 245) 92%); }
+.gp-glass { fill: color-mix(in oklch, currentColor 9%, oklch(0.16 0.030 165) 92%); }
 .gg-setup .gp { max-width: 340px; }
 .gp-spot { font-size: 10.5px; padding: 5px 10px 5px 5px; }
 
 .gg-card, .gg-report dt { text-align: left; }
 
 /* greenhouse: steady screen, fixed background, compact layout, readable water level */
-html { scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: oklch(0.5 0.06 220 / 0.7) transparent; }
-html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { background: oklch(0.5 0.06 220 / 0.7); border-radius: 8px; }
+html { scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: oklch(0.5 0.030 165 / 0.7) transparent; }
+html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { background: oklch(0.5 0.030 165 / 0.7); border-radius: 8px; }
 /* The picture and its shade stay put while the page grows or scrolls, so opening a panel never rescales them. */
 .game-shell .lunar-background, .game-shell .scene-shade { position: fixed; }
 .gg .gp { max-width: min(420px, 50svh); }
@@ -1056,22 +1058,22 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 .sm-st-particles .sm-particles { opacity: 1; }
 .sm-particle { stroke: var(--storm-sun); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 14 120; animation: sm-fly 2.2s linear 3 both; animation-delay: calc(var(--i) * 0.25s); }
 @keyframes sm-fly { from { stroke-dashoffset: 40; } to { stroke-dashoffset: -280; } }
-.sm-ground { fill: oklch(0.32 0.02 250); } .sm-dome { fill: oklch(0.7 0.06 210 / 0.5); stroke: oklch(0.78 0.08 205); stroke-width: 2; }
-.sm-hab { fill: oklch(0.8 0.015 240); } .sm-panel { fill: oklch(0.42 0.1 255); } .sm-mast { stroke: oklch(0.8 0.02 240); stroke-width: 3; } .sm-mast-top { fill: var(--primary); }
+.sm-ground { fill: oklch(0.32 0.020 165); } .sm-dome { fill: oklch(0.7 0.06 210 / 0.5); stroke: oklch(0.78 0.11 85); stroke-width: 2; }
+.sm-hab { fill: oklch(0.8 0.015 165); } .sm-panel { fill: oklch(0.42 0.030 165); } .sm-mast { stroke: oklch(0.8 0.020 165); stroke-width: 3; } .sm-mast-top { fill: var(--primary); }
 
 /* ---- Shelter cutaway ---- */
 .sh { position: relative; width: min(480px, 92vw); margin-inline: auto; aspect-ratio: 480 / 320; }
 .sh svg { width: 100%; height: 100%; display: block; overflow: visible; }
-.sh-ground { fill: oklch(0.3 0.02 250); }
-.sh-shell { fill: oklch(0.22 0.04 250); stroke: oklch(0.7 0.09 205); stroke-width: 3; }
-.sh-room { fill: oklch(0.3 0.05 235); stroke: oklch(0.6 0.08 210); stroke-width: 2; }
+.sh-ground { fill: oklch(0.3 0.020 165); }
+.sh-shell { fill: oklch(0.22 0.030 165); stroke: oklch(0.7 0.11 85); stroke-width: 3; }
+.sh-room { fill: oklch(0.3 0.030 165); stroke: oklch(0.6 0.08 210); stroke-width: 2; }
 .sh-streak { stroke-width: 3; stroke-linecap: round; stroke-dasharray: 10 14; animation: sh-flow 2.4s linear infinite; animation-delay: calc(var(--i) * -0.3s); }
-.sh-through { stroke: var(--storm-warn); } .sh-stopped { stroke: oklch(0.75 0.1 215); opacity: 0.8; }
+.sh-through { stroke: var(--storm-warn); } .sh-stopped { stroke: oklch(0.75 0.030 165); opacity: 0.8; }
 @keyframes sh-flow { to { stroke-dashoffset: -48; } }
 .sh-calm .sh-streak { animation-duration: 3.6s; opacity: 0.6; }
 .sl-water .sl-body { fill: oklch(0.58 0.14 235); } .sl-water .sl-mark { fill: oklch(0.92 0.06 235); }
 .sl-supply .sl-body { fill: oklch(0.62 0.07 70); } .sl-supply .sl-mark { fill: oklch(0.42 0.06 60); }
-.sl-equipment .sl-body { fill: oklch(0.5 0.02 250); } .sl-equipment .sl-mark { fill: oklch(0.82 0.1 190); }
+.sl-equipment .sl-body { fill: oklch(0.5 0.020 165); } .sl-equipment .sl-mark { fill: oklch(0.82 0.11 85); }
 .sl-item { animation: gp-pop 0.4s ease-out both; }
 .sg-slot { position: absolute; width: 56px; height: 48px; transform: translate(-50%, -50%); border-radius: 12px; border: 2px dashed var(--primary); background: color-mix(in oklch, var(--primary) 8%, transparent); cursor: pointer; padding: 0; animation: gp-pulse 1.8s ease-in-out infinite; }
 .sg-slot-filled { border-color: transparent; background: transparent; animation: none; }
@@ -1085,13 +1087,13 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 .sa-left { transform: translate(196px, 107px); } .sa-right { transform: translate(224px, 107px); }
 .sa-protected .sa-left { transform: translate(196px, 107px) scaleX(0.14); } .sa-protected .sa-right { transform: translate(224px, 107px) scaleX(0.14); }
 .sa-left, .sa-right { transform-box: view-box; } .sa-left { transform-origin: 196px 107px; } .sa-right { transform-origin: 224px 107px; }
-.sa-panel { fill: oklch(0.42 0.12 255); stroke: oklch(0.7 0.08 230); stroke-width: 1.5; } .sa-grid { stroke: oklch(0.7 0.08 230 / 0.6); stroke-width: 1; fill: none; } .sa-hub { fill: oklch(0.75 0.02 240); }
+.sa-panel { fill: oklch(0.42 0.12 255); stroke: oklch(0.7 0.030 165); stroke-width: 1.5; } .sa-grid { stroke: oklch(0.7 0.030 165 / 0.6); stroke-width: 1; fill: none; } .sa-hub { fill: oklch(0.75 0.020 165); }
 
 /* ---- Power diagram (briefing) ---- */
 .pd { width: min(400px, 90vw); display: block; margin-inline: auto; }
-.pd-cell { fill: oklch(0.3 0.06 235); stroke: oklch(0.8 0.1 200); stroke-width: 2.5; } .pd-bolt { fill: var(--storm-sun); }
+.pd-cell { fill: oklch(0.3 0.030 165); stroke: oklch(0.8 0.11 85); stroke-width: 2.5; } .pd-bolt { fill: var(--storm-sun); }
 .pd-wire { stroke: var(--storm-sun); stroke-width: 3; fill: none; stroke-dasharray: 6 8; animation: sh-flow 2.4s linear 2; }
-.pd-box { fill: oklch(0.24 0.04 245); stroke: oklch(0.6 0.08 215); } .pd-text { fill: var(--foreground); font-size: 15px; font-weight: 700; letter-spacing: 1px; }
+.pd-box { fill: oklch(0.24 0.030 165); stroke: oklch(0.6 0.030 165); } .pd-text { fill: var(--foreground); font-size: 15px; font-weight: 700; letter-spacing: 1px; }
 .pd-icon { fill: var(--primary); } .pd-shield { fill: oklch(0.75 0.12 215); } .pd-fan { fill: oklch(0.8 0.1 180); } .pd-leaf { fill: oklch(0.72 0.17 145); }
 .pd-node { animation: gh-fade 0.7s ease-out both; animation-delay: calc(var(--i) * 0.35s); }
 
@@ -1192,7 +1194,7 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 .sg { background: color-mix(in oklch, var(--overlay) 70%, transparent); backdrop-filter: blur(8px); border-radius: 20px; padding: 16px 18px; }
 .sg-side > *:not(.mission-cta):not(.sg-items) { text-shadow: none; }
 .sg-meter, .sg-earlier, .sg-rule, .sg-matter { background: color-mix(in oklch, var(--card) 80%, transparent); border-radius: 12px; padding: 8px 12px; }
-.sg-earlier { padding-left: 28px; } .sg-earlier li { color: var(--foreground); } .sg-hint, .sg-quiet { color: oklch(0.82 0.02 240); }
+.sg-earlier { padding-left: 28px; } .sg-earlier li { color: var(--foreground); } .sg-hint, .sg-quiet { color: oklch(0.82 0.020 165); }
 .sg-detect, .sg-sep, .sg-cme, .sg-route { text-shadow: none; }
 
 /* storm layout: tags sit at the left, cards size to their content, the picture is clipped to its own frame */
@@ -1236,11 +1238,11 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 .pin-unlocking svg:last-child { animation: unlock-pop 1s 0.2s ease-out both; }
 
 /* the cast */
-.avatar { flex: none; } .av-bg { fill: oklch(0.22 0.04 250); stroke: oklch(0.6 0.08 215); stroke-width: 1.5; }
-.avatar-luna .av-bg { stroke: oklch(0.78 0.12 195); } .avatar-nova .av-bg { stroke: oklch(0.78 0.15 60); }
-.av-face { fill: oklch(0.82 0.06 55); } .av-hair { fill: oklch(0.3 0.05 280); } .av-headset { stroke: oklch(0.78 0.12 195); stroke-width: 2.4; } .av-headset-pad { fill: oklch(0.78 0.12 195); } .av-mic { stroke: oklch(0.78 0.12 195); stroke-width: 1.8; fill: none; }
-.av-helmet { fill: oklch(0.93 0.01 230); stroke: oklch(0.72 0.14 60); stroke-width: 2.5; } .av-visor { fill: oklch(0.2 0.05 250); } .av-suit { fill: oklch(0.72 0.17 55); }
-.av-eye { fill: oklch(0.96 0.01 230); } .avatar-luna .av-eye { fill: oklch(0.2 0.04 250); }
+.avatar { flex: none; } .av-bg { fill: oklch(0.22 0.030 165); stroke: oklch(0.6 0.030 165); stroke-width: 1.5; }
+.avatar-luna .av-bg { stroke: oklch(0.78 0.11 85); } .avatar-nova .av-bg { stroke: oklch(0.78 0.15 60); }
+.av-face { fill: oklch(0.82 0.06 55); } .av-hair { fill: oklch(0.3 0.030 165); } .av-headset { stroke: oklch(0.78 0.11 85); stroke-width: 2.4; } .av-headset-pad { fill: oklch(0.78 0.11 85); } .av-mic { stroke: oklch(0.78 0.11 85); stroke-width: 1.8; fill: none; }
+.av-helmet { fill: oklch(0.93 0.01 230); stroke: oklch(0.72 0.14 60); stroke-width: 2.5; } .av-visor { fill: oklch(0.2 0.030 165); } .av-suit { fill: oklch(0.72 0.17 55); }
+.av-eye { fill: oklch(0.96 0.01 230); } .avatar-luna .av-eye { fill: oklch(0.2 0.030 165); }
 .av-mouth, .av-brow { stroke: oklch(0.96 0.01 230); stroke-width: 1.6; stroke-linecap: round; fill: none; } .avatar-luna .av-mouth, .avatar-luna .av-brow { stroke: oklch(0.3 0.05 30); }
 .avatar .av-features { transition: transform 0.5s ease; } .avatar-worried .av-features { transform: translateY(0.5px); }
 .comms { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 14px; border: 1px solid color-mix(in oklch, var(--primary) 35%, transparent); background: color-mix(in oklch, var(--card) 85%, transparent); text-align: left; animation: gh-fade 0.6s ease-out; }
@@ -1251,7 +1253,7 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 .ticker-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.6px; color: oklch(0.86 0.17 90); } .ticker-text { color: var(--foreground); }
 
 /* mission-control questions */
-.wrap { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; padding: 16px; background: color-mix(in oklch, var(--overlay, oklch(0.115 0.03 252)) 80%, transparent); backdrop-filter: blur(6px); animation: gh-fade 0.4s ease-out; overflow-y: auto; }
+.wrap { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; padding: 16px; background: color-mix(in oklch, var(--overlay, oklch(0.115 0.030 165)) 80%, transparent); backdrop-filter: blur(6px); animation: gh-fade 0.4s ease-out; overflow-y: auto; }
 .wrap-card { width: min(640px, 100%); border: 1px solid color-mix(in oklch, var(--primary) 40%, transparent); border-radius: 20px; padding: 20px; background: color-mix(in oklch, var(--card) 96%, transparent); box-shadow: 0 0 40px color-mix(in oklch, var(--primary) 18%, transparent); }
 .wrap-q { display: flex; flex-direction: column; gap: 14px; text-align: left; }
 .wrap-ask { display: flex; gap: 12px; align-items: center; } .wrap-ask p { margin: 0; font-size: clamp(17px, 2.2vw, 22px); line-height: 1.35; }
@@ -1270,17 +1272,17 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 /* living outpost, crew log, training complete */
 .lo { width: min(560px, 100%); display: block; margin-inline: auto; } .lo-compact { max-width: 360px; margin: 0; }
 .lo-star { fill: oklch(0.95 0.02 230 / 0.8); animation: star-pulse 5s ease-in-out infinite; }
-.lo-ground { fill: oklch(0.32 0.02 250); }
-.lo-body, .lo-shell { fill: oklch(0.55 0.015 240); transition: fill 1s ease; } .lo-window { fill: oklch(0.3 0.03 250); transition: fill 1s ease, filter 1s ease; }
-.lo-m1 .lo-body { fill: oklch(0.82 0.015 240); } .lo-m1 .lo-window { fill: oklch(0.88 0.14 90); filter: drop-shadow(0 0 4px oklch(0.88 0.14 90)); } .lo-vent { stroke: oklch(0.8 0.02 240); stroke-width: 3; fill: none; }
-.lo-dome { fill: oklch(0.45 0.05 210 / 0.35); stroke: oklch(0.7 0.08 205); stroke-width: 2; } .lo-plants { stroke: oklch(0.4 0.08 145); stroke-width: 5; stroke-linecap: round; fill: none; transition: stroke 1s ease; }
+.lo-ground { fill: oklch(0.32 0.020 165); }
+.lo-body, .lo-shell { fill: oklch(0.55 0.015 165); transition: fill 1s ease; } .lo-window { fill: oklch(0.3 0.030 165); transition: fill 1s ease, filter 1s ease; }
+.lo-m1 .lo-body { fill: oklch(0.82 0.015 165); } .lo-m1 .lo-window { fill: oklch(0.88 0.14 90); filter: drop-shadow(0 0 4px oklch(0.88 0.14 90)); } .lo-vent { stroke: oklch(0.8 0.020 165); stroke-width: 3; fill: none; }
+.lo-dome { fill: oklch(0.45 0.05 210 / 0.35); stroke: oklch(0.7 0.11 85); stroke-width: 2; } .lo-plants { stroke: oklch(0.4 0.08 145); stroke-width: 5; stroke-linecap: round; fill: none; transition: stroke 1s ease; }
 .lo-glow { fill: oklch(0.8 0.17 145 / 0); transition: fill 1.2s ease; } .lo-m2 .lo-plants { stroke: oklch(0.72 0.17 145); } .lo-thrive .lo-glow { fill: oklch(0.8 0.17 145 / 0.28); animation: lo-breathe 4s ease-in-out infinite; }
 @keyframes lo-breathe { 50% { fill: oklch(0.8 0.17 145 / 0.16); } }
-.lo-door { fill: oklch(0.3 0.03 250); transition: fill 1s ease; } .lo-m3 .lo-shell { fill: oklch(0.8 0.015 240); } .lo-m3 .lo-door { fill: oklch(0.85 0.15 60); filter: drop-shadow(0 0 5px oklch(0.85 0.15 60)); }
-.lo-panel { fill: oklch(0.42 0.12 255); stroke: oklch(0.7 0.08 230); transition: transform 1s ease; transform-box: fill-box; } .lo-mast { stroke: oklch(0.8 0.02 240); stroke-width: 3; }
+.lo-door { fill: oklch(0.3 0.030 165); transition: fill 1s ease; } .lo-m3 .lo-shell { fill: oklch(0.8 0.015 165); } .lo-m3 .lo-door { fill: oklch(0.85 0.15 60); filter: drop-shadow(0 0 5px oklch(0.85 0.15 60)); }
+.lo-panel { fill: oklch(0.42 0.12 255); stroke: oklch(0.7 0.030 165); transition: transform 1s ease; transform-box: fill-box; } .lo-mast { stroke: oklch(0.8 0.020 165); stroke-width: 3; }
 .lo-folded .lo-panel-a { transform: translateX(46px) scaleX(0.2); } .lo-folded .lo-panel-b { transform: translateX(-4px) scaleX(0.2); transform-origin: left; }
 .map-extras { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 14px; } .map-extras .comms { flex: 1 1 280px; } .map-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-.log, .finish { width: min(940px, 100%); margin-inline: auto; display: flex; flex-direction: column; gap: 12px; text-align: left; padding: 16px 18px; border-radius: 20px; background: color-mix(in oklch, var(--overlay, oklch(0.115 0.03 252)) 78%, transparent); backdrop-filter: blur(8px); }
+.log, .finish { width: min(940px, 100%); margin-inline: auto; display: flex; flex-direction: column; gap: 12px; text-align: left; padding: 16px 18px; border-radius: 20px; background: color-mix(in oklch, var(--overlay, oklch(0.115 0.030 165)) 78%, transparent); backdrop-filter: blur(8px); }
 .log h3, .finish h3 { margin: 10px 0 0; font-family: var(--font-display); font-size: 13px; letter-spacing: 2px; color: var(--muted-foreground); }
 .log-title, .done-title { margin: 0; font-family: var(--font-display); font-size: clamp(24px, 3.4vw, 36px); letter-spacing: 2px; } .log-sub, .done-sub { margin: 0; color: var(--muted-foreground); }
 .log-bests { display: flex; gap: 8px 22px; flex-wrap: wrap; font-size: 14px; } .log-bests b { color: var(--primary); }
@@ -1317,7 +1319,7 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 .gg-fly { position: fixed; z-index: 120; width: 22px; height: 22px; border-radius: 99px; background: oklch(0.6 0.23 28); box-shadow: 0 0 12px oklch(0.8 0.2 40 / 0.8); pointer-events: none; }
 .gg-sparkle { animation: gg-sparkle 0.9s ease-out; } @keyframes gg-sparkle { 0% { box-shadow: 0 0 0 0 oklch(0.86 0.17 90 / 0.8); } 100% { box-shadow: 0 0 0 22px oklch(0.86 0.17 90 / 0); } }
 .sg-storm { position: relative; isolation: isolate; }
-.sg-storm::before { content: ""; position: absolute; inset: -16px -18px auto; height: 210px; z-index: -1; border-radius: 20px 20px 0 0; pointer-events: none; opacity: calc(0.08 + var(--lvl, 0) * 0.42); background: radial-gradient(60% 100% at 25% 0, oklch(0.75 0.16 190 / 0.55), transparent), radial-gradient(60% 100% at 75% 0, oklch(0.6 0.2 300 / 0.5), transparent); transition: opacity 1.6s ease; animation: sg-aurora 9s ease-in-out infinite alternate; }
+.sg-storm::before { content: ""; position: absolute; inset: -16px -18px auto; height: 210px; z-index: -1; border-radius: 20px 20px 0 0; pointer-events: none; opacity: calc(0.08 + var(--lvl, 0) * 0.42); background: radial-gradient(60% 100% at 25% 0, oklch(0.75 0.11 85 / 0.55), transparent), radial-gradient(60% 100% at 75% 0, oklch(0.6 0.2 300 / 0.5), transparent); transition: opacity 1.6s ease; animation: sg-aurora 9s ease-in-out infinite alternate; }
 @keyframes sg-aurora { from { transform: translateX(-3%) scaleY(0.9); } to { transform: translateX(3%) scaleY(1.1); } }
 .sg-calm::before { animation-duration: 24s; } .sg-passed::before { opacity: 0.05; animation: none; }
 .sg-crew { display: flex; align-items: center; gap: 10px; align-self: center; font-size: 13px; color: var(--muted-foreground); }
@@ -1330,3 +1332,98 @@ html::-webkit-scrollbar { width: 8px; } html::-webkit-scrollbar-thumb { backgrou
 
 .wrap-option.miss { border-color: var(--storm-warn, oklch(0.78 0.16 60)); background: color-mix(in oklch, var(--storm-warn, oklch(0.78 0.16 60)) 12%, transparent); }
 .wrap-note p { margin: 0 0 4px; }
+
+
+/* ===== Field-manual look: matte flight-deck hardware instead of glowing glass ===== */
+.brand-mark > span:last-child, .later-banner span, .training-complete h1, .finish h1 { font-family: var(--font-stencil); font-weight: 400; letter-spacing: 3px; }
+h1, h2, h3 { font-weight: 700; }
+.panel, .top-habitat, .wrap-q, .sim-panel .panel { box-shadow: var(--panel-shadow); }
+button.mission-cta, .mission-cta { box-shadow: var(--stamp), 0 3px 0 oklch(0.45 0.12 45); text-transform: none; letter-spacing: 1px; border-radius: 4px; }
+button.mission-cta:active { transform: translateY(2px); box-shadow: var(--stamp), 0 1px 0 oklch(0.45 0.12 45); }
+body { background-image: radial-gradient(oklch(1 0 0 / 0.035) 1px, transparent 1.2px); background-size: 22px 22px; }
+
+/* ===== Field manual, pass 2: mission cards as flight-plan sheets, readable small print ===== */
+.mission-card {
+  position: relative; overflow: hidden; border: 2px solid var(--border); border-left: 14px solid var(--primary);
+  border-radius: 4px; background: var(--card); backdrop-filter: none; padding: 18px 20px 14px;
+  box-shadow: var(--stamp), 0 4px 0 oklch(0.16 0.016 165);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.mission-card::before { /* sprocket holes down the sheet's spine */
+  content: ""; position: absolute; left: -11px; top: 12px; bottom: 12px; width: 8px;
+  background: radial-gradient(circle, oklch(0.2 0.016 165) 2.6px, transparent 3px) 0 0 / 8px 22px repeat-y;
+}
+.mission-card:hover:not(:disabled) { transform: translateY(-3px); background: var(--card); box-shadow: var(--stamp), 0 7px 0 oklch(0.16 0.016 165); }
+.mission-card:active:not(:disabled) { transform: translateY(2px); box-shadow: var(--stamp), 0 2px 0 oklch(0.16 0.016 165); }
+.mission-locked:disabled {
+  opacity: 1; border-color: var(--border); border-left-color: var(--accent);
+  background: repeating-linear-gradient(135deg, var(--card) 0 10px, color-mix(in oklch, var(--card) 88%, black) 10px 20px);
+}
+.mission-card h2 { font-family: var(--font-display); font-size: 21px; letter-spacing: 0.5px; text-transform: uppercase; }
+.mission-card h2 span { font-family: var(--font-stencil); font-weight: 400; }
+.mission-card p { font-size: 14px; line-height: 1.45; color: var(--foreground); opacity: 0.86; }
+.mission-state { font-size: 11px; letter-spacing: 1px; padding: 2px 7px; border: 1.5px solid currentColor; border-radius: 2px; transform: rotate(-2deg); font-weight: 700; }
+.mission-location { font-size: 12px; }
+.mission-card-bottom { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; border-top: 2px dashed var(--border); }
+
+/* readable small print everywhere (it was 7-9px) */
+.hud-label, .base-marker > div > span, .surface-coordinates, .training-caption, .brand-mark small, .resource small { font-size: 11px; }
+.resource strong { font-size: 15px; }
+.panel-title { font-size: 15px; color: var(--foreground); text-transform: uppercase; letter-spacing: 1.2px; border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 3px; }
+
+/* bars: riveted equipment rails */
+.training-strip, .game-footer { background: var(--overlay); border-top: 3px double var(--border); }
+.resource-track { height: 6px; border-radius: 1px; background: oklch(0.18 0.016 165); box-shadow: inset 0 1px 2px black; }
+.resource-fill { background: repeating-linear-gradient(90deg, currentColor 0 6px, color-mix(in oklch, currentColor 70%, black) 6px 8px); }
+.mission-card::before { display: none; }
+.mission-card h2 { font-size: 18px; flex-wrap: nowrap; white-space: nowrap; }
+.mission-cards { align-items: stretch; }
+.top-habitat, .space-weather { border-radius: 5px !important; box-shadow: var(--stamp), 0 3px 0 oklch(0.16 0.016 165); background-color: color-mix(in oklch, var(--card) 96%, transparent); }
+
+/* ===== Spring motion (an overshoot-and-settle curve, so things feel like they have weight) ===== */
+:root { --spring: linear(0, 0.18 5%, 0.58 12%, 0.95 21%, 1.1 29%, 1.12 34%, 1.04 46%, 0.99 58%, 1.005 72%, 1); }
+.mission-card, .mission-cta, button.mission-cta { transition-timing-function: var(--spring); transition-duration: 0.45s; }
+.mission-card:hover:not(:disabled) { transform: translateY(-4px) rotate(-0.4deg); }
+@keyframes spring-in { from { opacity: 0; transform: scale(0.7) translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes spring-drop { from { transform: translateY(-14px) scale(1.15); } to { transform: none; } }
+.patch-new, .gh-bloom, .wrap-note, .unlock-toast { animation-timing-function: var(--spring); }
+.wrap-note { animation: spring-in 0.55s var(--spring) both; }
+.gh-plant, .gh-leaf, .gh-flower { transition-timing-function: var(--spring); }
+.gh-plant { animation: gh-grow 1.2s var(--spring); }
+.gh-switch, .ghs-recipe, .wrap-option, .gh-plant-button { transition: transform 0.4s var(--spring), border-color 0.2s, background 0.2s; }
+.gh-switch:active, .ghs-recipe:active, .wrap-option:active { transform: scale(0.95); }
+.wrap-option.on, .ghs-recipe-on { transform: translateY(-2px); }
+[data-slot], .drop-slot { transition: transform 0.45s var(--spring), border-color 0.2s; }
+[data-slot]:has(> *:not(:empty)) { animation: spring-drop 0.5s var(--spring); }
+
+/* ===== Storm opening: the flare hits ===== */
+@keyframes storm-shake { 0%,100% { transform: none; } 12% { transform: translate(-5px, 2px); } 28% { transform: translate(6px, -3px); } 44% { transform: translate(-4px, -2px); } 60% { transform: translate(3px, 3px); } 80% { transform: translate(-1px, 1px); } }
+@keyframes storm-flash { 0% { opacity: 0; } 8% { opacity: 0.85; } 100% { opacity: 0; } }
+@keyframes storm-strobe { 0%,100% { opacity: 0; } 50% { opacity: 0.18; } }
+@keyframes title-slam { 0% { opacity: 0; transform: scale(2.4); letter-spacing: 14px; filter: blur(8px); } 55% { opacity: 1; transform: scale(0.94); filter: none; } 75% { transform: scale(1.04); } 100% { transform: none; } }
+@keyframes alert-rise { from { opacity: 0; transform: translateY(26px); } }
+.sg-detect.sg-static svg { animation: storm-shake 0.5s steps(2, end) infinite; }
+.sg-detect.sg-static::before { content: ""; position: fixed; inset: 0; z-index: 30; pointer-events: none; background: oklch(0.65 0.2 28); animation: storm-strobe 0.45s steps(2, end) infinite; }
+.sg-detect.sg-amber::after { content: ""; position: fixed; inset: 0; z-index: 30; pointer-events: none; background: oklch(0.9 0.12 85); animation: storm-flash 0.9s ease-out both; }
+.sg-detect.sg-amber svg { animation: storm-shake 0.55s ease-out 1; }
+.sg-detect.sg-amber .sg-title { animation: title-slam 0.7s var(--spring) both; }
+.sg-detect.sg-amber .sg-data, .sg-detect.sg-amber .comms, .sg-detect.sg-amber .mission-cta { animation: alert-rise 0.5s var(--spring) both; }
+.sg-detect.sg-amber .sg-data { animation-delay: 0.35s; } .sg-detect.sg-amber .comms { animation-delay: 0.5s; } .sg-detect.sg-amber .mission-cta { animation-delay: 0.7s; }
+
+/* ===== No veil: the moon photo stays clear; text sits on solid panels, not on fog ===== */
+.scene-age .scene-shade, .scene-systems .scene-shade { background: linear-gradient(180deg, color-mix(in oklch, var(--overlay) 70%, transparent), transparent 22%, transparent 78%, color-mix(in oklch, var(--overlay) 75%, transparent)); }
+.scene-briefing .scene-shade { background: linear-gradient(180deg, color-mix(in oklch, var(--overlay) 60%, transparent), color-mix(in oklch, var(--overlay) 30%, transparent) 40%, color-mix(in oklch, var(--overlay) 55%, transparent)); }
+.scene-storm .scene-shade, .scene-greenhouse .scene-shade { background: linear-gradient(180deg, color-mix(in oklch, var(--overlay) 55%, transparent), color-mix(in oklch, var(--overlay) 25%, transparent) 35%, color-mix(in oklch, var(--overlay) 45%, transparent)); }
+.scene-complete .scene-shade, .scene-log .scene-shade { background: color-mix(in oklch, var(--overlay) 45%, transparent); }
+.sg, .wrap, .briefing-top, .briefing-bottom, .top-guide { backdrop-filter: none; }
+.sg { background: color-mix(in oklch, var(--overlay) 94%, transparent); border-radius: 6px; box-shadow: var(--stamp), 0 4px 0 oklch(0.16 0.016 165); }
+.log, .finish { background: color-mix(in oklch, var(--overlay) 95%, transparent); border-radius: 6px; }
+.wrap { background: color-mix(in oklch, var(--overlay) 62%, transparent); }
+.briefing-top, .briefing-bottom { background: color-mix(in oklch, var(--overlay) 88%, transparent); }
+.age-card { background: var(--card); border: 2px solid var(--border); border-radius: 5px; box-shadow: var(--stamp), 0 4px 0 oklch(0.16 0.016 165); }
+.age-selected { border-color: var(--primary); background: var(--card); box-shadow: var(--stamp), 0 4px 0 oklch(0.16 0.016 165), 0 0 0 2px var(--primary); }
+.age-card:hover { background: var(--card); }
+/* text that sits straight on the photo gets a dark edge so it stays readable without a veil */
+.scene-age :is(h1, h2, p, span, button):not(.age-card *):not(.mission-cta):not(.mission-cta *),
+.scene-map :is(h1, h2, p, span):not(.mission-card *):not(.map-pin *):not(button *):not([class*="comms"] *):not([class*="outpost"] *),
+.scene-systems :is(h1, h2, p):not(button *) { text-shadow: 0 1px 3px oklch(0.1 0.01 165 / 0.95), 0 0 14px oklch(0.1 0.01 165 / 0.9); }

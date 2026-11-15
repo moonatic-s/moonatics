@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, AudioLines, Check, Crosshair, Globe2, Leaf, LockKeyhole, Moon, Orbit, Rocket, ShieldCheck, Volume2, VolumeX, Wind } from 'lucide-react';
+import { ArrowRight, AudioLines, Check, Crosshair, Globe2, Leaf, LockKeyhole, Moon, Orbit, Palette, Rocket, ShieldCheck, Volume2, VolumeX, Wind } from 'lucide-react';
 import lunarBase from '@/assets/lunar-base.jpg';
 import { Button } from '@/components/ui/button';
 import { content } from '@/game/content';
@@ -14,8 +14,16 @@ import { LivingOutpost } from './outpost';
 import { TrainingComplete } from './training-complete';
 import { MAP_GREETING, pick as pickText } from '@/game/story/copy';
 import { UnlockToast } from './unlock-toast';
+import { applyTheme, readTheme, type Theme } from '@/theme';
 import { installSfx } from '@/game/audio/sfx';
 import { ambient, moodForScene, readAmbientPreference, writeAmbientPreference } from '@/game/audio/ambient';
+/** Switches between the field-manual look and the original dark look. */
+function ThemeControl() {
+  const [theme, setTheme] = useState<Theme>(readTheme);
+  const next: Theme = theme === 'deck' ? 'classic' : 'deck';
+  const label = next === 'classic' ? 'Switch to the classic look' : 'Switch to the field-manual look';
+  return <Button variant="ghost" size="icon" className="sound-control theme-control" title={label} aria-label={label} onClick={() => { applyTheme(next); setTheme(next); }}><Palette/></Button>;
+}
 /** The music button: ambient music for every part of the game. It starts on the first tap or key press (browsers require one) unless it was switched off. */
 function AmbientControl() {
   const [enabled, setEnabled] = useState(readAmbientPreference);
@@ -46,7 +54,7 @@ function GameShell() {
   const start = scene === 'start';
   const back = () => setScene(scene === 'age' ? 'start' : scene === 'map' ? 'age' : scene === 'briefing' || scene === 'greenhouse' || scene === 'storm' || scene === 'log' || scene === 'complete' ? 'map' : 'briefing');
   return <main className={`game-shell scene-${scene}`}><img className="lunar-background" src={lunarBase} width={1920} height={1088} alt="Moon Base Alpha, with connected lunar habitats, a greenhouse, and Earth above the Moon"/><div className="scene-shade"/><div className="ambient-star star-one"/><div className="ambient-star star-two"/>
-    <header className="game-topbar"><Button variant="ghost" className="brand-mark" onClick={() => setScene('start')} aria-label={content.common.home}><span className="brand-symbol"><Orbit size={24}/></span><span>{content.brand}<small>MISSION CONTROL</small></span></Button><div className="topbar-right"><span className="base-online"><span className="signal-dot"/>{content.start.location}</span>{ageMode && !start && <span className="mode-chip">{content.ageSelection[ageMode].name}</span>}<AmbientControl/></div></header>
+    <header className="game-topbar"><Button variant="ghost" className="brand-mark" onClick={() => setScene('start')} aria-label={content.common.home}><span className="brand-symbol"><Orbit size={24}/></span><span>{content.brand}<small>MISSION CONTROL</small></span></Button><div className="topbar-right"><span className="base-online"><span className="signal-dot"/>{content.start.location}</span>{ageMode && !start && <span className="mode-chip">{content.ageSelection[ageMode].name}</span>}<ThemeControl/><AmbientControl/></div></header>
     <UnlockToast/>
     <div className="scene-content" key={scene}>
     {start ? <section className="start-scene"><div className="start-copy"><div className="eyebrow start-eyebrow"><span className="eyebrow-line"/>{content.start.eyebrow}</div><h1>{content.brand}<span className="title-dot">.</span></h1><h2>{content.subtitle}</h2><p className="start-tagline">{content.start.tagline}<br/><span>{content.start.taglineEnd}</span></p><Button className="mission-cta start-cta" onClick={() => setScene('age')}><Rocket size={20}/>{content.start.begin}<ArrowRight size={20}/></Button><div className="start-details"><span><Orbit size={15}/>{content.start.missionCount}</span><span className="detail-divider"/><span>{content.start.ageRange}</span></div></div><div className="start-bottom"><span><Globe2 size={16}/>{content.start.footer}</span><span className="surface-coordinates">LUNAR SURFACE <span>25.9° N / 0.0° E</span></span></div></section> : <>
