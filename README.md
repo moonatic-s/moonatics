@@ -501,6 +501,22 @@ challenge at the **NASA International Space Apps Challenge 2026**.
 
 ---
 
+## Use of Super Intelligence (SI)
+
+This project was built with SI assistance.
+
+| Part | What SI did | Tool |
+|---|---|---|
+| Code | Wrote most of the source code (game, engine, interface, tests) with our direction and review |
+| Text | Drafted game text, briefings, questions, the cheat sheet and the demo slides |
+| Data | The NASA datasets are real and unchanged. The formulas that turn the player's choices into numbers were designed with SI assistance. |
+| Image |images are AI-generated. 
+| Audio | Music and sound effects are generated live by code (Web Audio) that was written with SI assistance with our direction and review. Voices use the browser's speech synthesis. There are no recorded audio files. 
+
+The game uses no NASA logos, flags or mission identifiers. It is not affiliated with or endorsed by NASA.
+
+---
+
 ## 📚 Data Credits
 
 Data used in MOONATICS comes from:
