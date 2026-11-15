@@ -5,9 +5,6 @@ learn the trade-offs real mission planners face: every lever you turn costs powe
 
 Built for the NASA Space Apps Challenge 2026, *Build a Junior Astronaut Mission Trainer*.
 
-> **Play it:** after you publish (see [Publish on GitHub Pages](#publish-on-github-pages)) the game lives at
-> `https://YOUR-NAME.github.io/YOUR-REPO/`. Add that link here.
-
 ![Moonatics](public/apple-touch-icon.png)
 
 ## How it plays
@@ -60,36 +57,6 @@ game labels NASA values with a *NASA DATA* badge and player-adjusted values as *
 
 Safe zones and pass marks are **training targets** chosen for gameplay. They are not official NASA limits.
 
-## Run it
-
-You need a recent Node.js (22 or newer) and npm.
-
-```sh
-npm install
-npm run dev        # http://localhost:8080
-npm test           # unit and screen tests (Vitest)
-npm run typecheck  # TypeScript, strict
-npm run build      # production build into dist/
-npm run preview    # serve the production build locally
-```
-
-On Windows PowerShell, if `npm` is blocked, use `npm.cmd` instead.
-
-## Publish on GitHub Pages
-
-The game is a static website (no server, no accounts, nothing stored outside the player's browser), so GitHub
-Pages can host it for free. The workflow in `.github/workflows/deploy.yml` runs the tests, builds, and publishes.
-
-1. Create a repository on GitHub and push this project to its `main` branch.
-2. In the repository open **Settings > Pages** and set **Source** to **GitHub Actions**.
-3. Push again (or open **Actions > Test and deploy to GitHub Pages > Run workflow**).
-4. After a minute the game is live at `https://YOUR-NAME.github.io/YOUR-REPO/`.
-
-The build uses relative asset paths, so it works under any repository name with no extra settings.
-
-Useful links while playing or presenting: `/#reset` clears saved progress, `/#greenhouse` and `/#storm` open
-Mission 2 and Mission 3 directly.
-
 ## How it is built
 
 - **React 19**, **TypeScript** (strict), **Vite**, **Tailwind CSS 4**, **Radix UI**, **Vitest**. A plain static single-page app.
@@ -117,7 +84,7 @@ See [`src/game/engine/README.md`](src/game/engine/README.md) for the engine rule
 ## Credits
 
 Data courtesy of NASA OSDR, CCMC DONKI and RadLab. This is an educational project and is not
-affiliated with or endorsed by NASA.
+affiliated with or endorsed by NASA. Created By Emre Karakaş and Yiğit Ak
 
 Fonts: Barlow and Chakra Petch (Google Fonts, loaded from the web; the game still works with fallback fonts offline).
 Music and sound effects are generated live in the browser.
