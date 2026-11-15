@@ -70,6 +70,7 @@ export function GamePlant({
   onPick,
   pickLabel,
   dim,
+  lapse = false,
   children,
 }: {
   view: PlantView;
@@ -81,8 +82,10 @@ export function GamePlant({
   onSpot?: ((spot: Spot) => void) | undefined;
   /** Harvest: tomatoes already picked, and the click handler that makes the rest pickable. */
   picked?: ReadonlySet<number> | undefined;
-  onPick?: ((index: number) => void) | undefined;
+  onPick?: ((index: number, el: HTMLElement) => void) | undefined;
   pickLabel?: ((n: number) => string) | undefined;
+  /** Play the growth time-lapse (the plant grows quickly, then settles). */
+  lapse?: boolean;
   /** Grow-light brightness 0..1 (Mission 3 dims the lights when the greenhouse gets less power). */
   dim?: number | undefined;
   /** Extra content laid over the chamber (setup slots). */
@@ -103,6 +106,7 @@ export function GamePlant({
         `gp-stage-${stage}`,
         installed.light && "gp-lit",
         dim !== undefined && "gp-dimmed",
+        lapse && "gp-lapse",
       )}
       style={dim !== undefined ? ({ "--dim": dim } as CSSProperties) : undefined}
       data-stage={stage}
@@ -204,7 +208,7 @@ export function GamePlant({
               className="gp-pick"
               style={{ left: `${(p.x / 400) * 100}%`, top: `${(p.y / 440) * 100}%` }}
               aria-label={pickLabel?.(i + 1) ?? `Pick tomato ${i + 1}`}
-              onClick={() => onPick(i)}
+              onClick={(e) => onPick(i, e.currentTarget)}
             />
           ),
         )}

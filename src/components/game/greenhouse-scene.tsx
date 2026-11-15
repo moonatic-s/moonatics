@@ -4,6 +4,7 @@ import { content } from "@/game/content";
 import { useGame } from "@/game/state";
 import { GreenhouseBriefing } from "./greenhouse-briefing";
 import { GreenhouseGame } from "./greenhouse-game";
+import { RecallPrompt } from "./wrapup";
 
 /**
  * Mission 2 entry. The briefing plays every time the mission opens (the small replay icon brings it back),
@@ -11,8 +12,10 @@ import { GreenhouseGame } from "./greenhouse-game";
  * mechanics for both and only changes its wording and detail.
  */
 export function GreenhouseScene() {
-  const { ageMode, setScene, markBriefingSeen } = useGame();
+  const { ageMode, setScene, markBriefingSeen, story } = useGame();
   const [briefingOpen, setBriefingOpen] = useState(true);
+  // A quick look back at Mission 1, once per run, right after the briefing.
+  const [recallOpen, setRecallOpen] = useState(false);
   return (
     <section className="center-scene systems-scene greenhouse-scene">
       <div
@@ -41,9 +44,11 @@ export function GreenhouseScene() {
           onFinish={() => {
             markBriefingSeen("greenhouse");
             setBriefingOpen(false);
+            if (story.run.answered.m1 !== undefined && !story.run.recalled.m2) setRecallOpen(true);
           }}
         />
       )}
+      {recallOpen && <RecallPrompt mission="m2" onClose={() => setRecallOpen(false)} />}
     </section>
   );
 }

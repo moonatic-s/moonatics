@@ -112,6 +112,32 @@ export const sfx = {
   pop: () => play([{ from: 520, to: 300, length: 0.09, gain: 0.05 }]),
   /** A soft "not there": gentle, never harsh. */
   reject: () => play([{ from: 230, to: 170, type: "triangle", length: 0.16, gain: 0.05 }]),
+  /** A short burst of radio static: mission control keying the microphone. */
+  radio: () => {
+    if (!enabled()) return;
+    const c = context();
+    if (!c) return;
+    try {
+      const len = Math.floor(c.sampleRate * 0.14);
+      const b = c.createBuffer(1, len, c.sampleRate);
+      const d = b.getChannelData(0);
+      for (let i = 0; i < len; i += 1) d[i] = (Math.random() * 2 - 1) * Math.min(1, (len - i) / (len * 0.6));
+      const src = c.createBufferSource();
+      const band = c.createBiquadFilter();
+      const g = c.createGain();
+      src.buffer = b;
+      band.type = "bandpass";
+      band.frequency.value = 1800;
+      band.Q.value = 0.8;
+      g.gain.value = 0.05;
+      src.connect(band);
+      band.connect(g);
+      g.connect(c.destination);
+      src.start();
+    } catch {
+      /* sound is optional */
+    }
+  },
   /** The main button of a screen. */
   confirm: () =>
     play([

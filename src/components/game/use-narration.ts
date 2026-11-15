@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ambient } from "@/game/audio/ambient";
+import { sfx } from "@/game/audio/sfx";
 import type { AgeMode } from "@/game/state";
 
 /**
@@ -35,10 +36,13 @@ function writePreference(on: boolean) {
 }
 
 const chosen = new Map<string, SpeechSynthesisVoice>();
+/** Who is speaking: mission control and the crew sound different. */
+export type VoiceRole = "luna" | "nova";
 
 /** A clear, friendly English voice if the device has one; otherwise the browser default. Once chosen, the same voice is kept for every screen. */
-function pickVoice(lang: string): SpeechSynthesisVoice | undefined {
-  const known = chosen.get(lang);
+function pickVoice(lang: string, variant = 0): SpeechSynthesisVoice | undefined {
+  const key = `${lang}:${variant}`;
+  const known = chosen.get(key);
   if (known) return known;
   const family = lang.slice(0, 2).toLowerCase();
   const english = window.speechSynthesis
@@ -46,11 +50,10 @@ function pickVoice(lang: string): SpeechSynthesisVoice | undefined {
     .filter((v) => v.lang.toLowerCase().startsWith(family));
   const friendly =
     /natural|neural|online|google us english|samantha|zira|aria|jenny|female/i;
-  const voice =
-    english.find((v) => friendly.test(v.name)) ??
-    english.find((v) => v.lang === lang) ??
-    english[0];
-  if (voice) chosen.set(lang, voice);
+  const ranked = [...english.filter((v) => friendly.test(v.name)), ...english.filter((v) => !friendly.test(v.name))];
+  // the second character gets a different voice when the device has one
+  const voice = ranked[variant] ?? ranked[0];
+  if (voice) chosen.set(key, voice);
   return voice;
 }
 
@@ -82,6 +85,7 @@ export interface Narrator {
     lines: readonly string[],
     mode: AgeMode,
     onLine?: (index: number) => void,
+    options?: { role?: VoiceRole; radio?: boolean },
   ) => void;
   stop: () => void;
 }
@@ -104,6 +108,7 @@ export function useNarrator(lang = "en-US"): Narrator {
       lines: readonly string[],
       mode: AgeMode,
       onLine?: (index: number) => void,
+      options?: { role?: VoiceRole; radio?: boolean },
     ) => {
       if (!speechSupported()) return;
       stop();
@@ -111,14 +116,16 @@ export function useNarrator(lang = "en-US"): Narrator {
       // Some browsers drop a speak() issued in the same tick as cancel(), so start just after it.
       timer.current = window.setTimeout(() => whenVoicesReady(() => {
         if (mine !== token.current) return;
-        const voice = pickVoice(lang);
+        const role = options?.role ?? "luna";
+        const voice = pickVoice(lang, role === "nova" ? 1 : 0);
+        if (options?.radio) sfx.radio();
         lines.forEach((text, i) => {
           const u = new SpeechSynthesisUtterance(text);
           u.lang = lang;
           if (voice) u.voice = voice;
           // Ages 7-9 get a slightly slower, brighter voice; ages 10-12 a natural pace.
-          u.rate = mode === "explorer" ? 0.88 : 0.98;
-          u.pitch = mode === "explorer" ? 1.15 : 1;
+          u.rate = (mode === "explorer" ? 0.88 : 0.98) * (role === "nova" ? 1.04 : 1);
+          u.pitch = (mode === "explorer" ? 1.15 : 1) * (role === "nova" ? 1.08 : 0.96);
           u.onstart = () => {
             if (mine !== token.current) return;
             ambient.setDucked(true); // the music steps back while someone is speaking
@@ -127,6 +134,7 @@ export function useNarrator(lang = "en-US"): Narrator {
           if (i === lines.length - 1) {
             const release = () => {
               if (mine === token.current) ambient.setDucked(false);
+              if (options?.radio) sfx.radio();
             };
             u.onend = release;
             u.onerror = release;

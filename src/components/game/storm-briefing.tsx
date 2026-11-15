@@ -233,7 +233,7 @@ export function StormBriefing({
   onFinish: () => void;
   onBack?: (() => void) | undefined;
 }) {
-  const { ageMode } = useGame();
+  const { ageMode, noteBriefingFinished } = useGame();
   const mode: AgeMode = ageMode ?? "explorer";
   const reduced = usePrefersReducedMotion();
   const narrator = useNarrator(copy.voice.lang);
@@ -264,11 +264,12 @@ export function StormBriefing({
       if (leaving) return;
       setLeaving(true);
       stop();
+      if (index === SCREENS - 1) noteBriefingFinished();
       if (soundOn) playChime("done");
       if (reduced) onFinish();
       else timer.current = window.setTimeout(onFinish, ms);
     },
-    [leaving, reduced, soundOn, stop, onFinish],
+    [leaving, reduced, soundOn, stop, onFinish, index, noteBriefingFinished],
   );
   const go = useCallback(
     (to: number) => {

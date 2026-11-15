@@ -52,3 +52,8 @@ Failure thresholds and score cut-offs are game-balance values, not NASA limits.
 - **CME**: nothing is damaged when it is observed. Keeping the arrays deployed adds two power blocks and wears them a little as the CRaTER window plays.
 - **Reroute**: `rerouteStormPower` moves one block, once, while the storm plays. The plan is locked when playback starts.
 - CRaTER-D1D2 stays the external radiation source; crew exposure is a simulation derived from the shelter.
+
+## Difficulty and supply drop
+
+- `difficulty.ts` holds the numbers that differ by age band. Explorer (7-9) keeps the forgiving margins; Mission Specialist (10-12) uses `waterUse` x1.25 in the greenhouse, one fewer storm power block and a crew dose limit x0.9. Same rules, different numbers.
+- `applySupplyDrop` gives one extra help once: +12 L of water in Act 2, or +1 storm power block in Act 3 before the plan is locked. It never touches progress; the game counts it against the efficiency rating.

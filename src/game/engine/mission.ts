@@ -26,6 +26,7 @@ import type {
   SepAllocation,
   ShieldItem,
 } from "./types";
+import { doseLimitFor, tuningFor } from "./difficulty";
 import { at, clamp, roundTo, toNum } from "./util";
 
 import {
@@ -359,7 +360,7 @@ export function evaluateMissionFailure(
         "Plants need the right water and light. Too little or too much stresses roots and leaves, as in the real VEG-05 tomato experiment.",
     };
   }
-  if (act === 3 && radiation.cumulativeCrewDoseUGy >= L.crewDoseUGy) {
+  if (act === 3 && radiation.cumulativeCrewDoseUGy >= doseLimitFor(state.meta.ageBand)) {
     return {
       ...base,
       code: "RADIATION_OVEREXPOSURE",
@@ -616,6 +617,7 @@ export function updateLifeSupportControls(
       nextState.subSystems.water,
       nextCarry,
       datasets.food,
+      tuningFor(state.meta.ageBand).waterUse,
     );
     nextState = {
       ...nextState,
@@ -685,6 +687,7 @@ export function updateFoodControls(
     state.subSystems.water,
     state.carryOver,
     datasets.food,
+    tuningFor(state.meta.ageBand).waterUse,
   );
 
   const projectedBattery = clamp(
@@ -1092,6 +1095,7 @@ function advanceActRaw(
       state.subSystems.water,
       carryFromAct1,
       datasets.food,
+      tuningFor(state.meta.ageBand).waterUse,
     );
     const nextState: GameState = {
       ...state,
@@ -1140,7 +1144,12 @@ function advanceActRaw(
   }
 
   if (nextAct === 3) {
-    const carryFromAct2 = captureFoodCarryOver(state);
+    const captured = captureFoodCarryOver(state);
+    // Difficulty: the storm starts with more or fewer power blocks.
+    const carryFromAct2: CarryOver = {
+      ...captured,
+      stormAvailableKwBudget: clamp(captured.stormAvailableKwBudget + tuningFor(state.meta.ageBand).stormBudgetOffset, 4, 9),
+    };
     const prepared: GameState = {
       ...state,
       meta: {
@@ -1628,4 +1637,26 @@ export function startStormMission(
       }
     : grown;
   return advanceAct(patched, 3, datasets);
+}
+
+/**
+ * The once-per-run supply drop from Earth: extra water in the greenhouse (Act 2) or one extra power block in the
+ * storm (Act 3, before the plan is locked). It never touches progress. The game counts it against the efficiency rating.
+ */
+export function applySupplyDrop(state: GameState): GameState {
+  if (isLocked(state) || state.meta.supplyDropUsed) return state;
+  const act = state.meta.currentAct;
+  let next: GameState | null = null;
+  if (act === 2) {
+    const w = state.subSystems.water;
+    next = { ...state, subSystems: { ...state.subSystems, water: { ...w, reserveLiters: roundTo(Math.min(w.maxLiters, w.reserveLiters + 12), 1) } } };
+  } else if (act === 3 && state.subSystems.radiation.stormPhase < 4) {
+    next = applyAct3Couplings(
+      { ...state, carryOver: { ...state.carryOver, supplyBonusKw: (state.carryOver.supplyBonusKw ?? 0) + 1 } },
+      state.controls.act3,
+    );
+  }
+  if (!next) return state;
+  const marked: GameState = { ...next, meta: { ...next.meta, supplyDropUsed: true } };
+  return { ...marked, eventLog: appendLog(marked, "SUPPLY_DROP", act === 2 ? "Supply drop from Earth: +12 L of water." : "Supply drop from Earth: +1 storm power block.") };
 }

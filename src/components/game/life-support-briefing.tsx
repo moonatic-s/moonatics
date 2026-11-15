@@ -50,7 +50,7 @@ export function LifeSupportBriefing({
   /** Back on the first scene leaves the briefing for the mission map. */
   onBack?: (() => void) | undefined;
 }) {
-  const { ageMode } = useGame();
+  const { ageMode, noteBriefingFinished } = useGame();
   const mode = ageMode ?? "explorer";
   const reduced = usePrefersReducedMotion();
   const data = useMemo(buildBriefingData, []);
@@ -71,12 +71,13 @@ export function LifeSupportBriefing({
       if (leaving) return;
       setLeaving(true);
       stop();
+      if (index === SCENES - 1) noteBriefingFinished();
       if (soundOn) playChime("done");
       onLeaveStart?.();
       if (reduced) onFinish();
       else timer.current = window.setTimeout(onFinish, ms);
     },
-    [leaving, reduced, soundOn, stop, onLeaveStart, onFinish],
+    [leaving, reduced, soundOn, stop, onLeaveStart, onFinish, index, noteBriefingFinished],
   );
   const go = useCallback(
     (to: number) => {

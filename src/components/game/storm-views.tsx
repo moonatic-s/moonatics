@@ -15,6 +15,7 @@ import {
 } from "@/game/storm/model";
 import { useGame, type AgeMode } from "@/game/state";
 import { cn } from "@/lib/utils";
+import { Comms } from "./cast";
 import { playChime } from "./chime";
 import { ItemGlyph, ShelterCutaway, SLOT_POSITIONS, SolarArrays, SunMoonScene } from "./storm-art";
 import { useStages } from "./use-briefing-motion";
@@ -25,16 +26,18 @@ import { useDragPlace } from "./use-drag";
 const g = content.storm.game;
 
 /** Reads a screen's key message aloud once (when sound is on and the browser has a voice). Silent otherwise. */
-export function useStormVoice(lines: readonly string[] | null, mode: AgeMode) {
+export function useStormVoice(lines: readonly string[] | null, mode: AgeMode, role: "luna" | "nova" = "luna") {
+  // In the game, mission control (Luna) speaks over the radio.
+
   const { supported, soundOn: on, speak, stop } = useNarrator("en-US");
   const key = lines?.join("|") ?? "";
   useEffect(() => {
     if (!lines || !supported || !on) return;
-    speak(lines, mode);
+    speak(lines, mode, undefined, { role, radio: role === "luna" });
     return stop;
     // speak again only when the message itself changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, supported, on, mode]);
+  }, [key, supported, on, mode, role]);
 }
 
 const soundOn = (): boolean => {
@@ -76,7 +79,7 @@ export function DetectView({ mode, onNext }: { mode: AgeMode; onNext: () => void
                 <b>{d.flare}</b> <span>{d.time}</span>
               </p>
             )}
-            <p className="sg-message">{d.message}</p>
+            <Comms who="luna">{d.message}</Comms>
             <Button className="mission-cta" data-primary onClick={onNext}>
               {d.cta}
               <ArrowRight size={20} />
@@ -244,8 +247,8 @@ export function CmeView({ mode, onNext }: { mode: AgeMode; onNext: () => void })
           <b>{c.speed}</b>
         </p>
       )}
-      <SunMoonScene stage="cme" label="A large cloud of solar material leaving the Sun, far from the Moon" />
-      <p className="sg-message">{c.message}</p>
+      <div className="sm-pan"><SunMoonScene stage="cme" label="A large cloud of solar material leaving the Sun, far from the Moon" /></div>
+      <Comms who="luna">{c.message}</Comms>
       <p className="sg-hint">{c.notYet}</p>
       {stage >= 1 && (
         <section className="sg-decision" aria-label={c.decision}>
@@ -300,8 +303,8 @@ export function SepView({ mode, onNext }: { mode: AgeMode; onNext: () => void })
           <b>{s.detail}</b> <span>{s.time}</span>
         </p>
       )}
-      <SunMoonScene stage="particles" label="Fast energetic particles crossing space toward the Moon" />
-      <p className="sg-message" role="alert">{s.message[mode]}</p>
+      <div className="sm-pan"><SunMoonScene stage="particles" label="Fast energetic particles crossing space toward the Moon" /></div>
+      <Comms who="luna" role="alert">{s.message[mode]}</Comms>
       <Button className="mission-cta" data-primary onClick={onNext}>
         {s.cta}
         <ArrowRight size={20} />
@@ -311,6 +314,14 @@ export function SepView({ mode, onNext }: { mode: AgeMode; onNext: () => void })
 }
 
 /* ------------------------ PHASE 5: emergency power ------------------------ */
+
+/** What a share of power does to each system, in plain words. It shows the effect, never the "right" answer. */
+function systemEffect(key: PowerSystem, mode: AgeMode, blocks: number, st: ReturnType<typeof stormStatus>): string {
+  const spec = mode === "specialist";
+  if (key === "shelterKw") return spec ? `Shelter systems at ${st.systemsPct}% (ventilation, monitoring). Shielding does not change.` : `Shelter fans and alarms: ${st.systemsPct}%`;
+  if (key === "cabinKw") return blocks >= 3 ? (spec ? "Air control steady: CO\u2082 and temperature held." : "Air stays fresh.") : (spec ? "Air control limited: CO\u2082 can rise." : "The air may get stuffy.");
+  return spec ? `Grow lights at ${Math.round(st.growLight * 100)}%: the plant may stress.` : `Grow lights: ${Math.round(st.growLight * 100)}%`;
+}
 
 const SYSTEMS: { key: PowerSystem; name: "shelter" | "life" | "greenhouse"; note: "shelterNote" | "lifeNote" | "greenhouseNote" }[] = [
   { key: "shelterKw", name: "shelter", note: "shelterNote" },
@@ -322,6 +333,7 @@ const SYSTEMS: { key: PowerSystem; name: "shelter" | "life" | "greenhouse"; note
 export function RouteView({ mode, onLock }: { mode: AgeMode; onLock: () => void }) {
   const { sim, shiftStormPower } = useGame();
   const pv = powerView(sim);
+  const st = stormStatus(sim);
   const r = g.route;
   useStormVoice([r.title, r.hint[mode]], mode);
   const toggle = (sys: PowerSystem, i: number) => {
@@ -362,6 +374,7 @@ export function RouteView({ mode, onLock }: { mode: AgeMode; onLock: () => void 
               })}
             </div>
             {mode === "specialist" && <p className="sg-kw">{r.kw(pv.alloc[key], SYSTEM_CAP[key])}</p>}
+            <p className="sg-preview">{systemEffect(key, mode, pv.alloc[key], st)}</p>
           </section>
         ))}
       </div>

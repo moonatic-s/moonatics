@@ -217,6 +217,8 @@ export interface CarryOver {
   harvestRipeFruits: number;
   /** Water left in the shared reserve when the greenhouse finished. It becomes shielding material in Act 3. */
   act2WaterCarryLiters?: number;
+  /** Extra storm power block(s) from a supply drop. */
+  supplyBonusKw?: number;
   /** A temporary cabin-humidity event in the greenhouse. It overlays `endRhPercent` and never replaces it. */
   airOverlayRhPercent?: number;
 }
@@ -267,6 +269,8 @@ export interface MissionMeta {
   failed: boolean;
   failure: MissionFailure | null;
   attempts: number;
+    /** True once the one-time supply drop from Earth has been used in this state. */
+    supplyDropUsed?: boolean;
   /** Per-checkpoint record of Act 1, used for the pass rule, badges and guide messages. */
   act1History: Act1Checkpoint[];
 }

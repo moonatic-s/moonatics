@@ -16,6 +16,7 @@ export {
   applyFoodPreset,
   startFoodMission,
   startStormMission,
+  applySupplyDrop,
   setCabinAir,
   DRY_AIR_RH_PCT,
   setShelterMaterials,
@@ -37,9 +38,10 @@ export {
   getAgeAdaptedTelemetry,
   buildDebriefSummary,
 } from "./mission";
+export { TUNING, tuningFor, doseLimitFor, BASE_DOSE_LIMIT_UGY } from "./difficulty";
 export { SEP_DEMAND_KW, SHELTER_SLOT_COUNT, SHIELD_ITEM_UNITS } from "./radiation";
 export { captureLifeSupportCarryOver } from "./life-support";
-export { captureFoodCarryOver } from "./food";
+export { captureFoodCarryOver, waterUsePerStep } from "./food";
 export {
   getAct1MaxSteps,
   ACT1_HOUR_STRIDE,

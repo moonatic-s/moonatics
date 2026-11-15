@@ -1,5 +1,6 @@
 import type { CarryOver } from "@/game/engine";
 import type { MissionStatus } from "@/game/state";
+import { freshStory, mergeStory, parseStory, type Story } from "@/game/story/profile";
 
 /** What the player has finished. Only ever moves forward, so nothing relocks. */
 export interface Progress {
@@ -7,6 +8,8 @@ export interface Progress {
   briefingsSeen: { lifeSupport: boolean; greenhouse: boolean; storm: boolean };
   /** Resources each finished mission handed on. The latest result replaces the earlier one. */
   results: { act1: CarryOver | null; act2: CarryOver | null };
+  /** Patches, science cards, best skills and the current run's facts. */
+  story: Story;
 }
 export type BriefingKey = keyof Progress["briefingsSeen"];
 
@@ -19,6 +22,7 @@ export const freshProgress = (): Progress => ({
   missions: ["active", "locked", "locked"],
   briefingsSeen: { lifeSupport: false, greenhouse: false, storm: false },
   results: { act1: null, act2: null },
+  story: freshStory(),
 });
 
 /** Repairs the chain: a finished mission opens the next one, and earlier ones count as done. */
@@ -51,6 +55,7 @@ export function mergeProgress(a: Progress, b: Progress): Progress {
       act1: a.results.act1 ?? b.results.act1,
       act2: a.results.act2 ?? b.results.act2,
     },
+    story: mergeStory(a.story, b.story),
   };
 }
 
@@ -95,7 +100,7 @@ export function parseResult(raw: unknown): CarryOver | null {
 export function parseProgress(raw: unknown): Progress {
   const base = freshProgress();
   if (!raw || typeof raw !== "object") return base;
-  const r = raw as { missions?: unknown; briefingsSeen?: unknown; results?: unknown };
+  const r = raw as { missions?: unknown; briefingsSeen?: unknown; results?: unknown; story?: unknown };
   const missions = base.missions.map((fallback, i) => {
     const v = Array.isArray(r.missions) ? r.missions[i] : undefined;
     return STATUSES.includes(v as MissionStatus) ? (v as MissionStatus) : fallback;
@@ -108,6 +113,7 @@ export function parseProgress(raw: unknown): Progress {
       act1: parseResult((r.results as Record<string, unknown> | undefined)?.["act1"]),
       act2: parseResult((r.results as Record<string, unknown> | undefined)?.["act2"]),
     },
+    story: parseStory(r.story),
   };
 }
 

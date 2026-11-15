@@ -24,6 +24,7 @@ import { playChime } from "./chime";
 import { GreenhousePlant, type WaterState } from "./greenhouse-art";
 import { SpecialistOne, SpecialistThree, SpecialistTwo } from "./greenhouse-specialist";
 import { usePrefersReducedMotion, useStages } from "./use-briefing-motion";
+import { useGame } from "@/game/state";
 import { useNarrator } from "./use-narration";
 
 const copy = content.greenhouse.briefing;
@@ -312,6 +313,7 @@ export function GreenhouseBriefing({
   const reduced = usePrefersReducedMotion();
   const narrator = useNarrator(copy.voice.lang);
   const { supported, soundOn, speak, stop } = narrator;
+  const { noteBriefingFinished } = useGame();
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
   const [replay, setReplay] = useState(0);
@@ -341,11 +343,12 @@ export function GreenhouseBriefing({
       if (leaving) return;
       setLeaving(true);
       stop();
+      if (index === SCREENS - 1) noteBriefingFinished();
       if (soundOn) playChime("done");
       if (reduced) onFinish();
       else timer.current = window.setTimeout(onFinish, ms);
     },
-    [leaving, reduced, soundOn, stop, onFinish],
+    [leaving, reduced, soundOn, stop, onFinish, index, noteBriefingFinished],
   );
   const go = useCallback(
     (to: number) => {

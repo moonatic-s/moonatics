@@ -1,6 +1,6 @@
 export const content = {
   brand: 'MOONATICS', subtitle: 'Junior Astronaut Mission Trainer',
-  start: { eyebrow: 'LUNAR TRAINING PROGRAM', tagline: 'Build. Balance. Protect.', taglineEnd: 'Survive on the Moon.', begin: 'BEGIN MISSION', location: 'MOON BASE ALPHA', status: 'ALL SYSTEMS STANDING BY', footer: 'A small step for you. A giant leap for your crew.', training: 'YOUR LUNAR ADVENTURE STARTS HERE', missionCount: '3 connected missions', ageRange: 'Ages 7–12', },
+  start: { eyebrow: 'LUNAR TRAINING PROGRAM', tagline: 'Build. Balance. Protect.', taglineEnd: 'Survive on the Moon.', begin: 'BEGIN MISSION', location: 'MOON BASE ALPHA', footer: 'A small step for you. A giant leap for your crew.', training: 'YOUR LUNAR ADVENTURE STARTS HERE', missionCount: '3 connected missions', ageRange: 'Ages 7–12', },
   common: {
     unlocked: 'NEW MISSION UNLOCKED',
     replayBriefing: 'WATCH THE BRIEFING AGAIN', back: 'Go back', home: 'Return to start', continue: 'CONTINUE TO BASE', soundOn: 'Turn sound on', soundOff: 'Turn sound off', resources: 'BASE RESOURCES', mode: 'TRAINING MODE', stable: 'STABLE', locked: 'UPCOMING', ready: 'READY TO EXPLORE', select: 'SELECT MISSION', },

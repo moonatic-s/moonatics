@@ -17,6 +17,8 @@ import {
 } from "@/game/storm/model";
 import { useGame, type AgeMode } from "@/game/state";
 import { cn } from "@/lib/utils";
+import { Avatar, Comms, type Mood } from "./cast";
+import { EfficiencyLine } from "./crew-log";
 import { GamePlant } from "./gh-plant";
 import { ShelterCutaway } from "./storm-art";
 import { ambient } from "@/game/audio/ambient";
@@ -140,6 +142,8 @@ export function StormView({
     flower: deficit === 0 ? ("open" as const) : deficit === 1 ? ("half" as const) : ("closed" as const),
   };
   const time = sim.subSystems.radiation.currentTimeUtc.slice(11, 16);
+  // the crew visibly reacts: worried while exposure rises with thin shielding, relieved when the shelter holds
+  const novaMood: Mood = st.complete || (st.holding && st.index >= PEAK_INDEX - 1) ? "happy" : !st.holding && (exposure > 0.35 || st.index >= PEAK_INDEX - 2) ? "worried" : "calm";
   // the music follows the storm: it builds with the radiation, holds steady at the peak and relaxes when it has passed
   useEffect(() => {
     ambient.setIntensity(st.complete ? 0 : atPeak ? 0.85 : level);
@@ -159,7 +163,7 @@ export function StormView({
     );
 
   return (
-    <div className={cn("sg-storm", calm && "sg-calm", st.complete && "sg-passed")}>
+    <div className={cn("sg-storm", calm && "sg-calm", st.complete && "sg-passed")} style={{ ["--lvl" as string]: st.complete ? 0 : level }}>
       <div className="sg-stage">
         <ShelterCutaway
           slots={sim.controls.act3.shelter}
@@ -168,6 +172,10 @@ export function StormView({
           calm={calm}
           label="The crew shelter during the storm. Particles that the shielding stops fade out before reaching the crew."
         />
+        <div className="sg-crew" aria-live="polite">
+          <Avatar who="nova" mood={novaMood} size={56} />
+          <span>{novaMood === "happy" ? "Nova feels safe" : novaMood === "worried" ? "Nova is worried" : "Nova is waiting"}</span>
+        </div>
         <div className="sg-controls">
           {!st.complete && (
             <>
@@ -197,6 +205,9 @@ export function StormView({
           <section className="gg-card sg-peak" role="status">
             <h3>{s.peak}</h3>
             <p className="gg-status">{s.peakNote}</p>
+            <Comms who="nova" mood={st.holding ? "happy" : "worried"}>
+              {st.holding ? "It is loud outside, but I feel safe in here." : "It is getting uncomfortable in here. More shielding would help."}
+            </Comms>
           </section>
         )}
         {st.complete && (
@@ -275,7 +286,7 @@ export function DebriefView({
   onAgain: () => void;
   onBack: () => void;
 }) {
-  const { sim } = useGame();
+  const { sim, noteDetailsViewed, setScene } = useGame();
   const st = stormStatus(sim);
   const d = g.debrief;
   const rad = sim.subSystems.radiation;
@@ -298,7 +309,7 @@ export function DebriefView({
   return (
     <div className="sg-debrief">
       <h2 className="sg-title">{d.complete}</h2>
-      <p className="sg-message">{g.storm.passedMessage}</p>
+      <Comms who="luna" mood="happy">{g.storm.passedMessage}</Comms>
       <div className="sg-tiles">
         {tiles.map((t) => (
           <section key={t.key} className="gg-card sg-tile" aria-label={t.title}>
@@ -318,14 +329,19 @@ export function DebriefView({
           <p>{five.simText[mode]}</p>
         </div>
       </div>
+      <EfficiencyLine mission="m3" />
       <p className="gg-lesson">{d.lesson}</p>
       <div className="sg-debrief-actions">
-        <Button className="mission-cta" data-primary onClick={onBack}>
-          {d.back}
+        <Button className="mission-cta" data-primary onClick={() => setScene("complete")}>
+          FINISH TRAINING
           <ArrowRight size={18} />
         </Button>
+        <Button variant="outline" onClick={onBack}>{d.back}</Button>
         <Button variant="outline" onClick={onAgain}>{d.again}</Button>
-        <Button variant="ghost" aria-expanded={details} onClick={() => setDetails((v) => !v)}>
+        <Button variant="ghost" aria-expanded={details} onClick={() => {
+            setDetails((v) => !v);
+            noteDetailsViewed();
+          }}>
           {details ? d.hideDetails : d.details}
         </Button>
       </div>

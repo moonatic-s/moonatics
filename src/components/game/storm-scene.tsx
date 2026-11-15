@@ -4,14 +4,17 @@ import { content } from "@/game/content";
 import { useGame } from "@/game/state";
 import { StormBriefing } from "./storm-briefing";
 import { StormGame } from "./storm-game";
+import { RecallPrompt } from "./wrapup";
 
 /**
  * Mission 3 entry. The four-screen briefing plays every time the mission opens (the small replay icon brings it
  * back), with the storm game waiting underneath. One briefing component serves both age groups.
  */
 export function StormScene() {
-  const { setScene, markBriefingSeen } = useGame();
+  const { setScene, markBriefingSeen, story } = useGame();
   const [briefingOpen, setBriefingOpen] = useState(true);
+  // A quick look back at Mission 2, once per run, right after the briefing.
+  const [recallOpen, setRecallOpen] = useState(false);
   return (
     <section className="center-scene systems-scene storm-scene-page">
       <div
@@ -40,9 +43,11 @@ export function StormScene() {
           onFinish={() => {
             markBriefingSeen("storm");
             setBriefingOpen(false);
+            if (story.run.answered.m2 !== undefined && !story.run.recalled.m3) setRecallOpen(true);
           }}
         />
       )}
+      {recallOpen && <RecallPrompt mission="m3" onClose={() => setRecallOpen(false)} />}
     </section>
   );
 }

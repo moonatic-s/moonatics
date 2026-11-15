@@ -40,7 +40,9 @@ import { useGame } from "@/game/state";
 import { cn } from "@/lib/utils";
 import { Gauge, Lever, type GaugeKind } from "./console-parts";
 import { HabitatDiagram } from "./habitat-diagram";
+import { SpaceWeatherTicker } from "./cast";
 import { LifeSupportBriefing } from "./life-support-briefing";
+import { MissionWrapUp } from "./wrapup";
 import { BadgeRow, MissionGuide, ObjectiveStrip } from "./mission-header";
 import { MissionHeader } from "./mission-ui";
 import { PowerLedger } from "./power-ledger";
@@ -73,6 +75,8 @@ export function LifeSupportSim({ briefing = true }: { briefing?: boolean }) {
     completeMission,
     markBriefingSeen,
     recordResult,
+    recordFacts,
+    story,
   } = useGame();
   const mode = ageMode ?? "explorer";
   // Coming back from the greenhouse: the shared engine is in Act 2, so start Life Support fresh.
@@ -89,10 +93,27 @@ export function LifeSupportSim({ briefing = true }: { briefing?: boolean }) {
     if (complete) {
       completeMission(0);
       recordResult(1, captureLifeSupportCarryOver(sim));
+      recordFacts({
+        m1: {
+          stable: objective.stable,
+          total: objective.total,
+          batteryPct: Math.round(sim.subSystems.power.batteryPct),
+          waterLiters: sim.subSystems.water.reserveLiters,
+          waterPct: Math.round((sim.subSystems.water.reserveLiters / sim.subSystems.water.maxLiters) * 100),
+        },
+      });
     }
     // record once per finished run
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete, completeMission, recordResult]);
+  // After the result, mission control asks one gentle question (skippable, once per run).
+  const [wrapOpen, setWrapOpen] = useState(false);
+  const asked = story.run.answered.m1 !== undefined;
+  useEffect(() => {
+    if (!complete || asked) return;
+    const t = window.setTimeout(() => setWrapOpen(true), 1400);
+    return () => window.clearTimeout(t);
+  }, [complete, asked]);
   const controls = sim.controls.act1;
 
   const breakdown = useMemo(() => getLifeSupportBreakdown(sim), [sim]);
@@ -190,6 +211,7 @@ export function LifeSupportSim({ briefing = true }: { briefing?: boolean }) {
         >
           <RotateCcw size={16} aria-hidden="true" />
         </button>
+        {wrapOpen && <MissionWrapUp mission="m1" onClose={() => setWrapOpen(false)} />}
       </section>
     );
   }
@@ -267,6 +289,7 @@ export function LifeSupportSim({ briefing = true }: { briefing?: boolean }) {
         inert={briefingPhase !== "gone"}
         aria-hidden={briefingPhase !== "gone" || undefined}
       >
+        <SpaceWeatherTicker mission="m1" mode={mode} />
         <div className="console-top">
           <div className="top-objective">
             <ObjectiveStrip

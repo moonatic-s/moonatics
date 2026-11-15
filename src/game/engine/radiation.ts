@@ -115,7 +115,7 @@ export function computeAvailableStormKw(
 ): number {
   const baseBudget = carryOver.stormAvailableKwBudget ?? 8;
   const deployedBonusKw = controls.cmeRetractArrays ? 0 : 2;
-  return clamp(baseBudget + deployedBonusKw, 4, 11);
+  return clamp(baseBudget + deployedBonusKw + (carryOver.supplyBonusKw ?? 0), 4, 12);
 }
 
 /**

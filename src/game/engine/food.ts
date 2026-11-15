@@ -14,6 +14,7 @@ import type {
   PowerState,
   WaterState,
 } from "./types";
+import { tuningFor } from "./difficulty";
 import { at, clamp, roundTo } from "./util";
 
 export const VEG05_MILESTONES = Object.freeze([1, 10, 30, 60, 100]);
@@ -23,6 +24,11 @@ export const ACT2_INITIAL_CONTROLS = Object.freeze({
   redLight: 75,
   blueLight: 25,
 });
+
+/** Litres of water one growth step uses at a given water flow (0-100). Used to show the cost before the player chooses. */
+export function waterUsePerStep(waterFlow: number, waterUse = 1): number {
+  return roundTo((1.2 + (clamp(waterFlow, 0, 100) / 100) * 4.6) * waterUse, 1);
+}
 
 /**
  * Calculate live coupled VEG-05 greenhouse response from current sliders + Act 1 cabin carry-over.
@@ -34,6 +40,8 @@ export function evaluateFoodProduction(
   waterState: WaterState,
   carryOver: Partial<CarryOver>,
   foodData?: FoodDataset,
+  /** Difficulty: multiplier on water used per step (1 = Explorer). */
+  waterUse = 1,
 ) {
   const waterFlow = clamp(controls.waterFlow, 0, 100);
   const redLight = clamp(controls.redLight, 5, 100);
@@ -47,7 +55,7 @@ export function evaluateFoodProduction(
 
   const ledIntensityAvg = (redLight + blueLight) / 2;
   const ledKw = roundTo(0.95 + (ledIntensityAvg / 100) * 3.15, 2);
-  const waterDemandLPerStep = roundTo(1.2 + (waterFlow / 100) * 4.6, 2);
+  const waterDemandLPerStep = roundTo((1.2 + (waterFlow / 100) * 4.6) * waterUse, 2);
 
   // Effective water delivered depends on shared Act 1 water reserve.
   const waterShortageFactor =
@@ -265,6 +273,7 @@ export function stepFoodTick(
     state.subSystems.water,
     state.carryOver,
     foodData,
+    tuningFor(state.meta.ageBand).waterUse,
   );
 
   const nextBattery = roundTo(
@@ -318,6 +327,7 @@ export function stepFoodTick(
     updatedWater,
     state.carryOver,
     foodData,
+    tuningFor(state.meta.ageBand).waterUse,
   );
 
   // Also nudge Power & Life Support bar cleanly if greenhouse drained batteries!

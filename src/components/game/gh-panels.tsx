@@ -33,14 +33,18 @@ export function WaterPanel({
   feedback,
   mode,
   onChoose,
+  preview,
 }: {
   view: PlantView;
   chosen: WaterAction | null;
   feedback: string;
   mode: AgeMode;
   onChoose: (a: WaterAction) => void;
+  /** What each choice would cost next step, shown before anyone chooses. */
+  preview?: Record<WaterAction, { perStep: number; left: number }> | undefined;
 }) {
   const w = t.water;
+  const base = useId();
   const items: { id: WaterAction; label: string; icon: typeof Plus; off: boolean }[] = [
     { id: "add", label: w.add, icon: Plus, off: view.rung >= WATER_RUNGS.length - 1 },
     { id: "hold", label: w.hold, icon: Droplet, off: false },
@@ -57,10 +61,17 @@ export function WaterPanel({
             className="gg-act"
             aria-pressed={chosen === id}
             disabled={off}
+            aria-label={label}
+            aria-describedby={preview ? `${base}-${id}` : undefined}
             onClick={() => onChoose(id)}
           >
             <Icon size={mode === "explorer" ? 24 : 18} aria-hidden="true" />
             {label}
+            {preview && (
+              <small className="gg-cost" id={`${base}-${id}`}>
+                {mode === "explorer" ? `uses about ${Math.round(preview[id].perStep)} L` : `${preview[id].perStep} L/step \u00B7 ${preview[id].left} L left`}
+              </small>
+            )}
           </button>
         ))}
       </div>

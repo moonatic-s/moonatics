@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { content } from "@/game/content";
-import { SHELTER_SLOT_COUNT } from "@/game/engine";
-import { FLOW_INDEX, type StormPhase } from "@/game/storm/model";
+import { SHELTER_SLOT_COUNT, doseLimitFor } from "@/game/engine";
+import { FLOW_INDEX, stormStatus, type StormPhase } from "@/game/storm/model";
+import { MissionWrapUp } from "./wrapup";
 import { useGame, type AgeMode } from "@/game/state";
 import { cn } from "@/lib/utils";
+import { SpaceWeatherTicker } from "./cast";
+import { Ledger } from "./ledger";
 import { SolarArrays } from "./storm-art";
 import { DebriefView, StormView } from "./storm-playback";
 import { CmeView, DetectView, PrepareView, RouteView, SepView } from "./storm-views";
@@ -29,11 +32,12 @@ function Flow({ phase }: { phase: StormPhase }) {
  * walks the player through it and shows it.
  */
 export function StormGame({ replay, active = true }: { replay?: React.ReactNode; /** False while the briefing is open: the game waits quietly underneath. */ active?: boolean }) {
-  const { sim, ageMode, beginStorm, setShelter, setStormPower, nextStormPhase, retrySim, completeMission, setScene } = useGame();
+  const { sim, ageMode, beginStorm, setShelter, setStormPower, nextStormPhase, retrySim, completeMission, recordFacts, story, setScene } = useGame();
   const mode: AgeMode = ageMode ?? "explorer";
   const [phase, setPhase] = useState<StormPhase>("detect");
   const [plan, setPlan] = useState<{ shelterKw: number; cabinKw: number; greenhouseKw: number } | null>(null);
   const prepared = useRef(false);
+  const [wrapOpen, setWrapOpen] = useState(false);
 
   // Opening the mission starts the storm on the shared engine, from the results of Missions 1 and 2.
   useEffect(() => beginStorm(), [beginStorm]);
@@ -70,10 +74,12 @@ export function StormGame({ replay, active = true }: { replay?: React.ReactNode;
 
   return (
     <div className={cn("sg", `sg-${mode}`, `sg-phase-${phase}`)} aria-label={g.aria}>
+      {phase === "detect" && <SpaceWeatherTicker mission="m3" mode={mode} />}
       <div className="gg-top">
         <Flow phase={phase} />
         {replay}
       </div>
+      {(phase === "prepare" || phase === "cme" || phase === "sep" || phase === "route") && <Ledger mission="m3" mode={mode} />}
       {phase === "detect" &&
         (active ? (
           <DetectView mode={mode} onNext={() => setPhase("prepare")} />
@@ -90,8 +96,23 @@ export function StormGame({ replay, active = true }: { replay?: React.ReactNode;
         <StormView
           mode={mode}
           onPassed={() => {
+            const st = stormStatus(sim);
             completeMission(2);
+            recordFacts({
+              m3: {
+                shelter: st.shelterCounts,
+                inventory: { ...sim.subSystems.radiation.shelterInventory },
+                arraysProtected: st.arraysProtected,
+                plan,
+                budget: sim.subSystems.power.stormBudgetKw,
+                rerouted: sim.controls.act3.reroute !== null,
+                crewDoseUGy: Math.round(sim.subSystems.radiation.cumulativeCrewDoseUGy),
+                doseLimit: doseLimitFor(sim.meta.ageBand),
+                holding: st.holding,
+              },
+            });
             setPhase("debrief");
+            if (story.run.answered.m3 === undefined) window.setTimeout(() => setWrapOpen(true), 1200);
           }}
           onRetry={() => {
             retrySim();
@@ -101,6 +122,7 @@ export function StormGame({ replay, active = true }: { replay?: React.ReactNode;
           }}
         />
       )}
+      {wrapOpen && <MissionWrapUp mission="m3" onClose={() => setWrapOpen(false)} />}
       {phase === "debrief" && <DebriefView mode={mode} plan={plan} onAgain={restart} onBack={() => setScene("map")} />}
     </div>
   );

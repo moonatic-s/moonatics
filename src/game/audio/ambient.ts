@@ -6,7 +6,7 @@
  */
 
 export type Mood = "calm" | "focus" | "garden" | "storm";
-export type SceneName = "start" | "age" | "map" | "briefing" | "systems" | "greenhouse" | "storm";
+export type SceneName = "start" | "age" | "map" | "briefing" | "systems" | "greenhouse" | "storm" | "log" | "complete";
 
 /** Which mood plays in which part of the game. */
 export function moodForScene(scene: SceneName): Mood {

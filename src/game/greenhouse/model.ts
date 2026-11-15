@@ -1,4 +1,6 @@
 import {
+  tuningFor,
+  waterUsePerStep,
   applyFoodPreset,
   setCabinAir,
   startFoodMission,
@@ -15,6 +17,8 @@ import {
  */
 export const WATER_RUNGS = [20, 36, 52, 68, 84] as const;
 export const START_RUNG = 2;
+/** The day each growth checkpoint stands for (NASA VEG-05 milestones), used for the time-lapse. */
+export const MILESTONE_DAYS = [1, 10, 30, 60, 100] as const;
 
 /** Checkpoints after setup. The last one (FRUIT -> HARVEST) is the ripening beat on top of the engine's Day 100. */
 export const CHECKPOINTS = [
@@ -143,6 +147,13 @@ export function advanceGreenhouseSim(sim: GameState): GameState {
   if (idx === 1) return setCabinAir(next, "dry");
   if (idx === 2) return setCabinAir(next, "normal");
   return next;
+}
+
+/** What one decision would cost, shown before the player commits: water used next step and what would be left. */
+export function previewWater(sim: GameState, action: WaterAction): { perStep: number; left: number } {
+  const rung = nextRung(rungOf(sim.controls.act2.waterFlow), action);
+  const perStep = waterUsePerStep(WATER_RUNGS[rung] ?? WATER_RUNGS[START_RUNG], tuningFor(sim.meta.ageBand).waterUse);
+  return { perStep, left: Math.max(0, Math.round((sim.subSystems.water.reserveLiters - perStep) * 10) / 10) };
 }
 
 /** The decision waiting at Mid Growth, from what the roots look like now. */
