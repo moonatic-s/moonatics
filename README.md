@@ -497,7 +497,7 @@ challenge at the **NASA International Space Apps Challenge 2026**.
 
 ### Team Moonatics
 
-🌙 **MOONATICS**
+🌙 **MOONATICS** Emre Karakaş & Yiğit Ak
 
 ---
 
